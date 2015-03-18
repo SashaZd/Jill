@@ -35,3 +35,12 @@ fields : q_id, question text, keywords, context, date, uid
 2. Find old question by qid 
 3. Find all questions from uid
 4. Find all questions from r_id 
+5. 
+
+##Task List
+
+1. Set up Django Project
+2. Build login screen
+3. APIs for Watson
+4. Build Website 
+5. 
