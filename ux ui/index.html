@@ -44,7 +44,7 @@
 <br />
 
 <div class='row'>
-  <button class='small'>Ask Jill</button>   
+  <button class='small askjillbutton'>Ask Jill</button>   
 <button class='small'>History</button>
 </div>
 <div class='row'>
@@ -68,7 +68,7 @@
 </div>
 </div>
 
-<div id="ask_jill_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="ask_jill_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="false" role="dialog">
   <h2 id="modalTitle">Awesome. I have it.</h2>
   <p class="lead">Your couch.  It is mine.</p>
   <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
@@ -84,6 +84,9 @@ $( document ).ready(function() {
 	$(document).foundation();	
 	var library=new Array();
 	
+
+	//$('#ask_jill_modal').css("visibility", "visible");
+	//$('#ask_jill_modal').css("display", "block");
 	function populateLibrary(){
 
 	}
@@ -93,8 +96,10 @@ $( document ).ready(function() {
 	}
 
 	function askJill(){
-
+		$('#ask_jill_modal').foundation('reveal', 'open');
 	}
+
+	$('.askjillbutton').click(askJill);
 });
 
 
