@@ -65,20 +65,19 @@
 </div>
 
 <div id="ask_jill_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="false" role="list"/>
- <!--  <div class='box panel'>
-    <span style='text-decoration:underline;font-weight:600'>Blah blah <i>Author 1, Author 2</i></span>
-    <p style="font-size:0.8em"> Biologically inspired design is one of the fields that is really helpful but is not really well known</p>
+	<h2>Search for: "{{search}}"</h2>
+	<div ng-show="searchmodal" ng-repeat="answer in answers">
+  	<div class='box panel' ng-click="clickOnPaper($index)">
+    	<span style='text-decoration:underline;font-weight:600'>{{answer.title}} <i ng-repeat="author in answer.author">{{author}}, </i></span>
+    	<p style="font-size:0.8em"> {{answer.description}}</p>
     </div>
-  
-  <div class='box panel'>
-    <span style='text-decoration:underline;font-weight:600'>Blah blah <i>Author 1, Author 2</i></span>
-    <p style="font-size:0.8em"> Biologically inspired design is one of the fields that is really helpful but is not really well known</p>
   </div>
- -->
-  <!-- <h2 id="modalTitle">Awesome. I have it.</h2>
-  <p class="lead">Your couch.  It is mine.</p>
-  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a> -->
+  
+  <div ng-hide="searchmodal">
+  <a href="#" ng-click="back()">Back</a>
+  <h2>THWG</h2>
+  <b>{{information.title}}</b>{{information.description}}
+  </div>
 </div>
 		</div>
 </body>
@@ -100,9 +99,6 @@ $( document ).ready(function() {
 
 	}
 
-
-
-
 context = {
   nav: [
     { url: "http://www.yehudakatz.com", title: "Katz Got Your Tongue" },
@@ -110,41 +106,47 @@ context = {
   ]
 }
 	function askJill(){
-		$('#ask_jill_modal').foundation('reveal', 'open');
-
-    // the items in the list will be the ones returned from the json
-
- 
-    Handlebars.registerHelper('list', function(context, options) {
+		
+		// the items in the list will be the ones returned from the json
+		Handlebars.registerHelper('list', function(context, options) {
     var ret = "<ul>";
-
     for(var i=0, j=context.length; i<j; i++) {
     ret = ret + "<li>" + options.fn(context[i]) + "</li>";
     }
-
     return ret + "</ul>";
   });
-
-
-
-
-	}
+}
 
 	$('.askjillbutton').click(askJill);
 });
 
 
 </script>
-
+	
 <script type="text/javascript">
 
 var app=angular.module("jill",[]);
 app.controller('MainController',  function($scope) {
+
 	var papers=[{"author":["Goel","Darbus"],"title":"Paper 1","link":"facebook.com","description":"This is the description"},
 							{"author":["Goel"],"title":"Paper 2","link":"facebook.com","description":"This is the second description"}];
+
 	$scope.papers=papers;
+	//Ask Jill
  	$scope.searchfunction=function(){
-		$scope.hi=tinyMCE.activeEditor.selection.getContent();
+		$scope.search=tinyMCE.activeEditor.selection.getContent();
+		$('#ask_jill_modal').foundation('reveal', 'open');
+		$scope.searchmodal=true;
+		$scope.answers=papers;
+	}
+
+	$scope.clickOnPaper=function(i){
+		$scope.searchmodal=false; // switching to the details
+		$scope.information=papers[i];
+	}
+
+	$scope.back=function(){
+		$scope.searchmodal=true;
 	}
  });
 
