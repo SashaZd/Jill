@@ -3,16 +3,17 @@ cc8803
 
 Our CC 8803 project with Ashok Goel and IBM Watson
 
-@Aziz : Look at the UserManager file to understand how to go about making the QuestionManager. You can put in the API call from Watson there, and then create the JSON response object to return. 
+@Aziz : Look at the UserManager or QuestionManager file to understand how to go about making any other API calls. I've mentioned what all are compulsory imports and how to write new API calls. We have a list of API calls to be made on this ReadMe. Just keep making one and adding the details like I've done below. 
 
 @Carl/Shweta : 
 
-```
 	1. All API calls are AJAX calls. 
 	2. Once you've installed Django and pulled the latest repo to run the Django Server and make API calls use, 
-		$ python manage.py runserver  
-	3. Use whatever the base_URL the runserver gives you and then add the "/api/..." to the end of it to make the calls. 
 ```
+		$ python manage.py runserver  
+```
+	3. Use whatever the base_URL the runserver gives you and then add the "/api/..." to the end of it to make the calls. 
+
 
 
 User 
