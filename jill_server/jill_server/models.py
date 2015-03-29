@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 # Table for Users
-class User(models.Model):
+class CCUser(models.Model):
 	first_name = models.CharField(max_length=30)
 	last_name = models.CharField(max_length=30)
 	email = models.EmailField(max_length=30)
@@ -41,13 +41,31 @@ class User(models.Model):
 		return response_data
 
 
+class CCProjects(models.Model):
+	project_title = models.CharField(max_length=200)
+	created_by_user = models.ForeignKey('CCUser', related_name="created_by_user")
+
+	def __unicode__(self):
+	    return self.name
+
+	def getResponseData(self):
+
+		#Create Resposne Dictionary
+		response_data = {}
+		response_data["project_title"] = self.project_title
+		response_data["created_by_user"] = self.created_by_user
+		response_data['project_id'] = self.id
+
+		return response_data
+
+
 # Table for Questions asked to Watson
-class Question(models.Model):
+class CCQuestion(models.Model):
 	question_text = models.CharField(max_length=200)
-	evidence_list = models.ForeignKey('ReferencePapers')
-	answers = models.ForeignKey('Answer')
-	asked_by_user = models.ForeignKey('User', related_name="asked_by_user")
-	from_project_id = models.ForeignKey('Projects', related_name="from_project_id")
+	evidence_list = models.ForeignKey('CCReferencePapers')
+	answers = models.ForeignKey('CCAnswer')
+	asked_by_user = models.ForeignKey('CCUser', related_name="asked_by_user")
+	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
 
 	def __unicode__(self):
 	    return self.name
@@ -75,12 +93,34 @@ class Question(models.Model):
 		return response_data
 
 
+class CCReferencePapers(models.Model):
+	evidence_text =  models.CharField(max_length=200)
+	paper_title =  models.CharField(max_length=200)
+	paper_link =  models.CharField(max_length=200)
+	answer_id = models.ForeignKey('CCAnswer', related_name="answer_id")
+
+	def __unicode__(self):
+	    return self.name
+
+	def getResponseData(self):
+
+		#Create Resposne Dictionary
+		response_data = {}
+		response_data["evidence_text"] = self.evidence_text
+		response_data["paper_title"] = self.paper_title
+		response_data["paper_link"] = self.paper_link
+		# response_data["answer_id"] = self.answer_id.id
+		response_data['paper_id'] = self.id
+
+		return response_data
+
+
 # Table for Answers Obtained
-class Answer(models.Model):
+class CCAnswer(models.Model):
 	answer_text =  models.CharField(max_length=200)
 	confidence =  models.CharField(max_length=200)
-	evidence_list = models.ForeignKey('ReferencePapers')
-	question_id = models.ForeignKey('Question')
+	evidence_list = models.ForeignKey('CCReferencePapers')
+	question_id = models.ForeignKey('CCQuestion')
 
 	def __unicode__(self):
 	    return self.name
@@ -104,47 +144,6 @@ class Answer(models.Model):
 		response_data["reference_papers"] = response_evidence
 
 		return response_data
-
-
-class ReferencePapers(models.Model):
-	evidence_text =  models.CharField(max_length=200)
-	paper_title =  models.CharField(max_length=200)
-	paper_link =  models.CharField(max_length=200)
-	answer_id = models.ForeignKey('Answer', related_name="answer_id")
-
-	def __unicode__(self):
-	    return self.name
-
-	def getResponseData(self):
-
-		#Create Resposne Dictionary
-		response_data = {}
-		response_data["evidence_text"] = self.evidence_text
-		response_data["paper_title"] = self.paper_title
-		response_data["paper_link"] = self.paper_link
-		response_data["answer_id"] = self.answer_id.id
-		response_data['paper_id'] = self.id
-
-		return response_data
-
-class Projects(models.Model):
-	project_title = models.CharField(max_length=200)
-	created_by_user = models.ForeignKey('User', related_name="created_by_user")
-
-	def __unicode__(self):
-	    return self.name
-
-	def getResponseData(self):
-
-		#Create Resposne Dictionary
-		response_data = {}
-		response_data["project_title"] = self.project_title
-		response_data["created_by_user"] = self.created_by_user
-		response_data['project_id'] = self.id
-
-		return response_data
-
-
 
 
 

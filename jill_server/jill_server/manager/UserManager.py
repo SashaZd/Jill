@@ -26,10 +26,9 @@ def createUser(request):
 	first_name = request.POST.get('first_name','')
 	last_name = request.POST.get('last_name','')
 	email = request.POST.get('email','')
-	# group_name = request.POST.get('group_name', '')
 
 	user = None
-	existing_users = TIUser.objects.filter(email=email)
+	existing_users = User.objects.filter(email=email)
 
 	if len(existing_users) > 0:
 		# User Exists!
@@ -59,13 +58,13 @@ def createUser(request):
 
 
 def getUser(request, user_id):
-    response_data = {}
-    if user_id:
-        tiusers = TIUser.objects.filter(id=user_id)
-        #Ideally there shouldn't be duplicate users.
-        if len(tiusers)>0:
-            user = tiusers[0]
-            response_data = user.getResponseData()
+	response_data = {}
+	if user_id:
+		users = User.objects.filter(id=user_id)
+		#Ideally there shouldn't be duplicate users.
+		if len(users)>0:
+			user = users[0]
+			response_data = user.getResponseData()
 
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
