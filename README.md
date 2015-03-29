@@ -7,12 +7,12 @@ Our CC 8803 project with Ashok Goel and IBM Watson
 
 @Carl/Shweta : 
 
-	1. All API calls are AJAX calls. 
-	2. Once you've installed Django and pulled the latest repo to run the Django Server and make API calls use, 
+1. All API calls are AJAX calls. 
+2. Once you've installed Django and pulled the latest repo to run the Django Server and make API calls use, 
 ```
 		$ python manage.py runserver  
 ```
-	3. Use whatever the base_URL the runserver gives you and then add the "/api/..." to the end of it to make the calls. 
+3. Use whatever the base_URL the runserver gives you and then add the "/api/..." to the end of it to make the calls. 
 
 
 
