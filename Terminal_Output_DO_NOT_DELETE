@@ -1,0 +1,236 @@
+Last login: Thu Mar 26 12:59:52 on ttys001
+lawn-143-215-120-146:jill_server sasha$ sublime .
+lawn-143-215-120-146:jill_server sasha$ cd ../
+lawn-143-215-120-146:jill sasha$ cd ../
+lawn-143-215-120-146:Documents sasha$ cd Microevents-Backend/
+lawn-143-215-120-146:Microevents-Backend sasha$ git pull
+remote: Counting objects: 21, done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 14 (delta 4), reused 14 (delta 4)
+Unpacking objects: 100% (14/14), done.
+From github.gatech.edu:rgoel39/Microevents-Backend
+   ce7b282..43d6945  master     -> origin/master
+Updating ce7b282..43d6945
+Fast-forward
+ microevents/db.sqlite3                             | Bin 36864 -> 37888 bytes
+ microevents/microevents/__init__.pyc               | Bin 189 -> 164 bytes
+ microevents/microevents/migrations/0001_initial.py |  25 ++++++++
+ .../microevents/migrations/0001_initial.pyc        | Bin 0 -> 1056 bytes
+ microevents/microevents/migrations/__init__.py     |   0
+ microevents/microevents/migrations/__init__.pyc    | Bin 0 -> 175 bytes
+ microevents/microevents/models.py                  |  65 +++++++++++++++++++++
+ microevents/microevents/models.pyc                 | Bin 0 -> 667 bytes
+ microevents/microevents/settings.py                |   1 +
+ microevents/microevents/settings.pyc               | Bin 2349 -> 2358 bytes
+ 10 files changed, 91 insertions(+)
+ create mode 100644 microevents/microevents/migrations/0001_initial.py
+ create mode 100644 microevents/microevents/migrations/0001_initial.pyc
+ create mode 100644 microevents/microevents/migrations/__init__.py
+ create mode 100644 microevents/microevents/migrations/__init__.pyc
+ create mode 100644 microevents/microevents/models.py
+ create mode 100644 microevents/microevents/models.pyc
+lawn-143-215-120-146:Microevents-Backend sasha$ clear
+
+lawn-143-215-120-146:Microevents-Backend sasha$ clear
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lawn-143-215-120-146:Microevents-Backend sasha$ cd ../../
+lawn-143-215-120-146:WebServer sasha$ cd Documents/
+lawn-143-215-120-146:Documents sasha$ cd jill/
+lawn-143-215-120-146:jill sasha$ cd jill_server/
+lawn-143-215-120-146:jill_server sasha$ ls
+db.sqlite3	jill		jill_server	manage.py
+lawn-143-215-120-146:jill_server sasha$ python manage.py makemigrations jill
+Traceback (most recent call last):
+  File "manage.py", line 10, in <module>
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 385, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 354, in execute
+    django.setup()
+  File "/usr/local/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/usr/local/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/usr/local/lib/python2.7/site-packages/django/apps/config.py", line 202, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/usr/local/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Library/WebServer/Documents/jill/jill_server/jill/models.py", line 8
+    last_name = models.CharField(max_length=30)
+                                              ^
+IndentationError: unindent does not match any outer indentation level
+lawn-143-215-120-146:jill_server sasha$ clear
+
+lawn-143-215-120-146:jill_server sasha$ clear
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lawn-143-215-120-146:jill_server sasha$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lawn-143-215-120-146:jill_server sasha$ clear
+
+lawn-143-215-120-146:jill_server sasha$ python manage.py makemigrations jill
+Traceback (most recent call last):
+  File "manage.py", line 10, in <module>
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 385, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python2.7/site-packages/django/core/management/__init__.py", line 354, in execute
+    django.setup()
+  File "/usr/local/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/usr/local/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/usr/local/lib/python2.7/site-packages/django/apps/config.py", line 202, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/usr/local/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Library/WebServer/Documents/jill/jill_server/jill/models.py", line 55
+    def getResponseData(self):
+                             ^
+IndentationError: unindent does not match any outer indentation level
+lawn-143-215-120-146:jill_server sasha$ clear
+
+
+lawn-143-215-120-146:jill_server sasha$ python manage.py makemigrations jill
+Migrations for 'jill':
+  0001_initial.py:
+    - Create model Answer
+    - Create model Projects
+    - Create model Question
+    - Create model ReferencePapers
+    - Create model User
+    - Add field asked_by_user to question
+    - Add field evidence_list to question
+    - Add field from_project_id to question
+    - Add field created_by_user to projects
+    - Add field evidence_list to answer
+    - Add field question_id to answer
+lawn-143-215-120-146:jill_server sasha$ python manage.py makemigrations jill
+No changes detected in app 'jill'
+lawn-143-215-120-146:jill_server sasha$ python manage.py sqlall
+CommandError: Enter at least one application label.
+lawn-143-215-120-146:jill_server sasha$ python manage.py sqlall jill
+CommandError: App 'jill' has migrations. Only the sqlmigrate and sqlflush commands can be used when an app has migrations.
+lawn-143-215-120-146:jill_server sasha$ clear
+
+
+
+
+
+
+lawn-143-215-120-146:jill_server sasha$ python manage.py makemigrations jill
+No changes detected in app 'jill'
+lawn-143-215-120-146:jill_server sasha$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, contenttypes, jill, auth, sessions
+Running migrations:
+  Applying jill.0001_initial... OK
+lawn-143-215-120-146:jill_server sasha$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
