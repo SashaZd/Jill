@@ -8,7 +8,6 @@ urlpatterns = patterns('',
 	url(r'^api/user/$', UserManager.userRequest),
 	url(r'^api/user/(?P<user_id>\d*)/$', UserManager.userRequest),
 
-
 	url(r'^api/user/$', QuestionManager.askQuestion),
 
 	
@@ -16,5 +15,5 @@ urlpatterns = patterns('',
 	# url(r'^$', 'jill_server.views.home', name='home'),
 	# url(r'^blog/', include('blog.urls')),
 
-	url(r'^admin/', include(admin.site.urls))
+	# url(r'^admin/', include(admin.site.urls))
 )
