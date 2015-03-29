@@ -7,36 +7,6 @@ from datetime import datetime, timedelta
 
 # Other Imports
 from ..models import User, Question, Answer, ReferencePapers, Projects
-# from LoginManager import getCurrentUser
-
-
-# @csrf_exempt
-# def getCurrentUserJson(request):
-# 	user = getCurrentUser(request)
-# 	response_data = {}
-# 	if user:
-# 		response_data = user.getResponseData()
-# 	return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-# def getCurrentUser(request):
-# 	####HARDCODED just for demo/dev purposes###
-# 	user = User.objects.filter(email='sasha172@gmail.com')
-
-# 	#Whenever getting something from the database, check that only one
-# 	#object was returned. Multiple users with the same email (unlikely but not impossible)
-# 	#will cause the app to crash with the error "MultipleObjectsReturned: get() returned more than one .."
-# 	if len(user)>0:
-# 		user = user[0]
-
-# 	return user
-# 	####
-
-# 	if ('current_user_id' in request.session):
-# 		user_id = request.session['current_user_id']
-# 		users = TIUser.objects.filter(id=user_id)
-# 		if len(users)>0:
-# 			return users[0]
-# 	return None
 
 
 @csrf_exempt

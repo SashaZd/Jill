@@ -1,7 +1,9 @@
 cc8803
 ======
 
-This is our CC 8803 project with Ashok Goel and IBM Watson
+Our CC 8803 project with Ashok Goel and IBM Watson
+
+Notes for Aziz : Look at the UserManager file to understand how to go about making the QuestionManager. You can put in the API call from Watson there, and then create the JSON response object to return. 
 
 
 User 
@@ -16,15 +18,14 @@ fields: Email, Password, Name, u_id
 
 API Calls for User:
 
+You can find all the URLs in the URL file in the Server folder. We'll try to keep this updated too if we can. 
+
 1. 	URL : api/user/ 
 	Type : POST
 	Parameters: first_name, last_name, email 
 
 2. 	URL : api/user/<user_id>/
 	Type : GET
-
-
-
 
 Research Paper 
 ======
@@ -53,4 +54,3 @@ fields : q_id, question text, keywords, context, date, uid
 2. Build login screen
 3. APIs for Watson
 4. Build Website 
-5. 
