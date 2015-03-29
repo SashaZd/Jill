@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from datetime import datetime, timedelta
 
 # Other Imports
-from ..models import User, Question, Answer, ReferencePapers, Projects
+from ..models import CCUser, CCQuestion, CCAnswer, CCReferencePapers, CCProjects
 
 
 @csrf_exempt

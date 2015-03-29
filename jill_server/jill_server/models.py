@@ -20,7 +20,7 @@ class CCUser(models.Model):
 		response_data["email"] = self.email
 		response_data["user_id"] = self.id
         
-		# questions_asked = Question.objects.filter(asked_by_user=self.id)
+		# questions_asked = CCQuestion.objects.filter(asked_by_user=self.id)
 		# response_questions = []
 
 		# if questions_asked and len(questions_asked) > 0:
@@ -31,7 +31,7 @@ class CCUser(models.Model):
 
 		projects_worked_on = []
 
-		projects = Projects.objects.filter(created_by_user=self.id)
+		projects = CCProjects.objects.filter(created_by_user=self.id)
 		if projects and len(projects) > 0:
 			for proj in projects:
 				projects_worked_on.append(proj.getResponseData())
@@ -82,7 +82,7 @@ class CCQuestion(models.Model):
 		# response_data["answers"] = self.answers.id
 
 		response_answers = []
-		answers = Answer.objects.filter(question_id=self.id)
+		answers = CCAnswer.objects.filter(question_id=self.id)
 
 		if answers and len(answers)>0:
 			for ans in answers: 
@@ -135,7 +135,7 @@ class CCAnswer(models.Model):
 		response_data['answer_id'] = self.id
 
 		response_evidence = []
-		evidenceList = ReferencePapers.objects.filter(answer_id=self.id)
+		evidenceList = CCReferencePapers.objects.filter(answer_id=self.id)
 
 		if evidenceList and len(evidenceList)>0:
 			for eachRef in evidenceList:
