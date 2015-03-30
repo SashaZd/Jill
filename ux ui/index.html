@@ -126,10 +126,30 @@ context = {
 <script type="text/javascript">
 
 var app=angular.module("jill",[]);
-app.controller('MainController',  function($scope) {
+app.controller('MainController',  function($scope,$http) {
 
 	var papers=[{"author":["Goel","Darbus"],"title":"Paper 1","link":"facebook.com","description":"This is the description"},
 							{"author":["Goel"],"title":"Paper 2","link":"facebook.com","description":"This is the second description"}];
+
+	var responsePromise = $http.post({
+    method: 'POST',
+    url: "http://localhost:8000/api/question",
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    transformRequest: function(obj) {
+        var str = [];
+        for(var p in obj)
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        return str.join("&");
+    },
+    data: {email:'cjds@live.com','from_project_id':'1','question_text':'What is your name'}
+	});
+
+	responsePromise.success(function(data, status, headers, config) {
+	    alert(data);
+	});
+	responsePromise.error(function(data, status, headers, config) {
+	    alert("AJAX failed!");
+	});
 
 	$scope.papers=papers;
 	//Ask Jill
