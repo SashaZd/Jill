@@ -1,15 +1,17 @@
+{% load staticfiles %}
+
 <html>
 <head>
-<script src="js/script.js" charset="utf-8"></script>
-<link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/foundation.css" />
-  <script src="js/vendor/modernizr.js"></script>
-  <script src="js/vendor/jquery.js"></script>
-  <script src="js/foundation.min.js"></script>
-  <script src="js/handlebars-v3.0.0.js"></script>
-  <script src="js/foundation/foundation.reveal.js"></script>
-  <script src="bower_components/angular/angular.js" charset="utf-8"></script>
-  <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+<script src="{% static "js/script.js "%}" charset="utf-8"></script>
+<link rel="stylesheet" href="{% static "css/main.css"%}" />
+  <link rel="stylesheet" href="{% static "css/foundation.css "%}" />
+  <script src="{% static "js/vendor/modernizr.js" %}"></script>
+  <script src="{% static "js/vendor/jquery.js"%}"></script>
+  <script src="{% static "js/foundation.min.js"%}"></script>
+  <script src="{% static "js/handlebars-v3.0.0.js"%}"></script>
+  <script src="{% static "js/foundation/foundation.reveal.js"%}"></script>
+  <script src="{% static "bower_components/angular/angular.js"%}" charset="utf-8"></script>
+  <script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"%}"></script>
 <script>tinymce.init({selector:'textarea',statusbar:false,menubar : false});</script>
 
 </head>
