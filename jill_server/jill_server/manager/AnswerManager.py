@@ -14,10 +14,20 @@ import urllib
 # Watson Specific Imports
 import requests
 
-
+#return answer id
+#given: url to the answer, confidence, questionid, 
 @csrf_exempt
-def addAnswer(request):
-	pass
+def addAnswer(answer, confidence, questionId):
+	answer_instance = CCAnswer();
+	answer_instance.answer_text = answer
+	answer_instance.confidence = confidence
+	answer_instance.question_id = questionId
+	answer_instance.save()
+
+	response = answer_instance.getResponseData()
+
+	return(response.answer_id);
+
 	
 
 def getAnswer(request):
