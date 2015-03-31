@@ -11,6 +11,7 @@
 
 import json
 import requests
+import urllib
 
 def askWatson(question):
     data={"question": {"questionText" : question}}
@@ -31,24 +32,46 @@ def askWatson(question):
 
     return jsonResponse;
 
-    
+    # DSLfall2014 & bidstudent
 
 #How to parse the json
 
 print("===== Starting the test ======\n\n")
 
-jsonResponse = askWatson("How do pinecones work?")
+# jsonResponse = askWatson("How do pinecones work?")
 
-evidences = jsonResponse["question"]["evidencelist"]
+# evidences = jsonResponse["question"]["evidencelist"]
 
-#the answer
-firstAnswer = evidences[0]["text"]
+# #the answer
+# firstAnswer = evidences[0]["text"]
 
-#the document
-document = evidences[0]["document"]
+# #the document
+# document = evidences[0]["document"]
 
-print("Watson's answer: " + firstAnswer);
+# print("Watson's answer: " + firstAnswer);
 
-print("\n\n")
+# print("\n\n")
 
-print("Document: " + document);
+# print("Document: " + document);
+
+# password_mgr = urllib.HTTPPasswordMgrWithDefaultRealm()
+# top_level_url = "http://dilab.cc.gatech.edu/biologue/protected/articles/"
+# password_mgr.add_password(None, top_level_url, "bidstudent", "DSLfall2014")
+
+# handler = urllib.HTTPBasicAuthHandler(password_mgr)
+# # opener = urllib.build_opener(handler)
+
+# # opener.open(a_url)
+
+# # urllib.request.install_opener(opener)
+
+# proxy_support = urllib.request.ProxyHandler({})
+# opener = urllib.request.build_opener(proxy_support)
+# urllib.request.install_opener(opener)
+
+# docList = urllib.urlopen("http://dilab.cc.gatech.edu/biologue/protected/articles/")
+# for eachLine in docList:
+#     print eachLine
+
+
+
