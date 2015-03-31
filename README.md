@@ -34,7 +34,7 @@ fields: Email, Password, Name, u_id
 
 3. Update User
 
-4. Login
+4. Login (IMPORTANT)
 
 5. Logout
 
@@ -52,10 +52,13 @@ Research Paper
 ======
 fields : r_id, title, main text, references, qid, uid, reference_style
 
-1. New Research Paper 
+1. New Research Paper  (IMPORTANT)
 2. Update Research Paper with user typed content (Save) 
 3. Delete Research Paper 
 4. Update Research Paper with References 
+4a. Add Reference (IMPORTANT)
+4b. Delete Referecnce (IMPORTANT)
+
 5. Update Research Paper with content from studies
 
 
