@@ -1,20 +1,22 @@
+{% load staticfiles %}
+
 <html>
 <head>
-<script src="js/script.js" charset="utf-8"></script>
-<link rel="stylesheet" href="css/main.css" />
-  <link rel="stylesheet" href="css/foundation.css" />
-  <script src="js/vendor/modernizr.js"></script>
-  <script src="js/vendor/jquery.js"></script>
-  <script src="js/foundation.min.js"></script>
-  <script src="js/handlebars-v3.0.0.js"></script>
-  <script src="js/foundation/foundation.reveal.js"></script>
-  <script src="bower_components/angular/angular.js" charset="utf-8"></script>
-  <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+<script src="{% static "js/script.js "%}" charset="utf-8"></script>
+<link rel="stylesheet" href="{% static "css/main.css"%}" />
+  <link rel="stylesheet" href="{% static "css/foundation.css "%}" />
+  <script src="{% static "js/vendor/modernizr.js" %}"></script>
+  <script src="{% static "js/vendor/jquery.js"%}"></script>
+  <script src="{% static "js/foundation.min.js"%}"></script>
+  <script src="{% static "js/handlebars-v3.0.0.js"%}"></script>
+  <script src="{% static "js/foundation/foundation.reveal.js"%}"></script>
+  <script src="{% static "bower_components/angular/angular.js"%}" charset="utf-8"></script>
+  <script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 <script>tinymce.init({selector:'textarea',statusbar:false,menubar : false});</script>
 
 </head>
 
-
+{% verbatim %}
 <body ng-app="jill">
 
 <nav class="top-bar" data-topbar role="navigation">
@@ -57,9 +59,9 @@
 
 </div>
 <div class='large-4 medium-2 small-12 columns'>
-	<div class='box panel'  ng-repeat="paper in papers">
-		<span style='text-decoration:underline;font-weight:600'>{{paper.title}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
-		<p style="font-size:0.8em">	{{paper.description}}</p>
+	<div class='box panel'  ng-repeat="paper in references">
+		<span style='text-decoration:underline;font-weight:600'>{{paper.paper_title}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
+		<p style="font-size:0.8em">	{{paper.evidence_text}}</p>
 	</div>
 </div>
 </div>
@@ -68,16 +70,16 @@
 	<h2>Search for: "{{search}}"</h2>
 	<div ng-show="searchmodal" ng-repeat="answer in answers">
   	<div class='box panel' ng-click="clickOnPaper($index)">
-    	<span style='text-decoration:underline;font-weight:600'>{{answer.title}} <i ng-repeat="author in answer.author">{{author}}, </i></span>
-    	<p style="font-size:0.8em"> {{answer.description}}</p>
+    	<span style='text-decoration:underline;font-weight:600'>{{answer.paper_title}} <i ng-repeat="author in answer.author">{{author}}, </i></span>
+    	<p style="font-size:0.8em"> {{answer.evidence_text}}</p>
     </div>
   </div>
   
   <div ng-hide="searchmodal">
   <a href="#" ng-click="back()">Back</a>
-  <h2>{{information.title}}</h2>
-  <p>{{information.description\}}</p>
-	<a href="#">Add To List</a> | <a href="{{information.link}}">Link to paper</a>
+  <h2>{{information.paper_title}}</h2>
+  <p>{{information.evidence_text}}</p>
+	<a href="#" ng-click="addToReferences(information.index)">Add To List</a> | <a target="_blank" href="{{information.trimmed_document}}">Link to paper</a>
   </div>
 </div>
 		</div>
@@ -129,40 +131,52 @@ context = {
 var app=angular.module("jill",[]);
 app.controller('MainController',  function($scope,$http) {
 
-	var papers=[{"author":["Goel","Darbus"],"title":"Animals+and+Plants Osmosis Hammel+2005 1287536152584 : Osmosis and Solute-Solvent Drag : Abstract ","link":"facebook.com","description":"The effluent in larger volumes (more than 500 m/d) should be treated in an effluent treatment plant..."},
-							{"author":["Goel"],"title":"Reverse osmosis - Wikipedia, the free encyclopedia :","link":"facebook.com","description":"The rate of flow caused by osmosis is much less than the rate of flow caused by hydrostatic pressure..."}];
+  $scope.references=[];
 
-	var responsePromise = $http({
-    method: 'POST',
-    url: "http://localhost:8000/api/question/",
-    data: {email:'cjds@live.com','from_project_id':'1','question_text':'What is your name'}
-	});
+  function returnAnAnswer(email,project_id,question_text){
+    var responsePromise = $http({
+      method: 'post',
+      url: "http://localhost:8000/api/question/",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      data: $.param({email:email,from_project_id:project_id,question_text:question_text})
+    });
 
-	responsePromise.success(function(data, status, headers, config) {
-	    alert(data);
-	});
-	responsePromise.error(function(data, status, headers, config) {
-	    alert("AJAX failed!");
-	});
+    responsePromise.success(function(data, status, headers, config)  {
+      $scope.answers=data.evidences;
+    });
+    responsePromise.error(function(data, status, headers, config) {
+      alert("AJAX failed!");
+    });
 
-	$scope.papers=papers;
+  }
+
+  $scope.addToReferences=function(i){
+    $scope.references.push($scope.answers[i]);
+    console.log($scope.references)
+    $('#ask_jill_modal').foundation('reveal', 'close');
+  }
+
+	//$scope.papers=papers;
 	//Ask Jill
  	$scope.searchfunction=function(){
 		$scope.search=tinyMCE.activeEditor.selection.getContent();
 		$('#ask_jill_modal').foundation('reveal', 'open');
 		$scope.searchmodal=true;
-		$scope.answers=papers;
+    returnAnAnswer('cjds@live.com','1',$scope.search);
 	}
 
 	$scope.clickOnPaper=function(i){
 		$scope.searchmodal=false; // switching to the details
-		$scope.information=papers[i];
-
+    
+		$scope.information=$scope.answers[i];
+    $scope.information.index=i;
 	}
 
 	$scope.back=function(){
 		$scope.searchmodal=true;
 	}
- });
+
+});
 
 </script>
+{% endverbatim %}
