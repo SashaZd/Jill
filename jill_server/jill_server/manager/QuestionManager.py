@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
 # Other Imports
 from ..models import CCUser, CCQuestion, CCAnswer, CCReferencePapers, CCProjects
+import urllib
 
 # Watson Specific Imports
 import requests
@@ -49,6 +50,36 @@ def askWatson(request):
 			evidence["documentPath"] = ""
 
 			response_data["evidences"].append(evidence)
+
+			existing_questions = CCQuestion.objects.filter(question_text=question_text).filter(asked_by_user=asked_by_user)
+
+			if len(existing_users) > 0:
+				#Question asked before
+				existing_question = existing_questions[0]
+				errorMessage = "Info! You've asked this question before"
+			
+			else:
+
+				createNewAnswer()
+
+
+				question = CCQuestion()
+				question.question_text = question_text
+				question.evidence_list = evidence
+				question.asked_by_user = CCUser.objects.filter(email=email)[0].user_id
+				question.from_project_id = from_project_id
+
+
+
+	answers = models.ForeignKey('CCAnswer')
+	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
+
+
+				user.first_name = first_name
+				user.last_name = last_name
+				user.email = email
+
+
 
 		except: 
 			pass
