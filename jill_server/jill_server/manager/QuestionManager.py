@@ -68,11 +68,9 @@ def askWatson(request):
 				question.evidence_list = evidence
 				question.asked_by_user = CCUser.objects.filter(email=email)[0].user_id
 				question.from_project_id = from_project_id
-
-
-
-	answers = models.ForeignKey('CCAnswer')
-	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
+	
+				answers = models.ForeignKey('CCAnswer')
+				from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
 
 
 				user.first_name = first_name

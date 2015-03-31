@@ -1,5 +1,4 @@
 {% load staticfiles %}
-
 <html>
 <head>
 <script src="{% static "js/script.js"%}" charset="utf-8"></script>
@@ -10,6 +9,7 @@
   <script src="{% static "js/foundation.min.js"%}"></script>
   </head>
   <body>
+
 
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
@@ -24,7 +24,7 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <li class="has-dropdown">
-        <a href="#">Sign Up</a>
+        <a href="#">Carl Saldanha</a>
         <ul class="dropdown">
         <li><a href="#">New User</a></li>        
           <li><a href="#">Settings</a></li>
@@ -39,25 +39,34 @@
 <br />
 
 
-<div class="large-3 large-centered columns">
-  <div class="login-box">
+	<div class="large-3 large-centered columns">
+  <div class="projects">
   <div class="row">
   <div class="large-12 columns">
     <form>
+    <div class="large-12 columns">
+    <label> Select a project to start: </label>
+    </div>
        <div class="row">
          <div class="large-12 columns">
-             <input type="text" name="username" placeholder="Username" />
+             
+             <input type="radio" name="radio" value="r1" checked > BID_assignment 1
          </div>
        </div>
       <div class="row">
          <div class="large-12 columns">
-             <input type="password" name="password" placeholder="Password" />
+             <input type="radio" name="radio" value="r2"> BID_assignment 2
+         </div>
+      </div>
+      <div class="row">
+         <div class="large-12 columns">
+             <input type="radio" name="radio" value="r3">  BID_assignment 3
          </div>
       </div>
       <div class="row">
         <div class="large-12 large-centered columns">
-        <a href="{% url 'projects' %}">
-          <input type="button" id="loginbutton" class="button expand" value="Sign In"/>
+        <a href="index.html">
+          <input type="button" id="launch" class="button expand" value="Launch"/>
           </a>
         
         </div>
@@ -67,6 +76,7 @@
 </div>
 </div>
 </div>
+
 
 </body>
 </html>
