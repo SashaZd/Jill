@@ -36,6 +36,7 @@ def askWatson(request):
 	response_data["evidences"] = []
 
 	trimmed_answer_base_URL = "https://watson-wdc01.ihost.com"
+	response_data["tempData"] = 99
 
 # # Waiting for Bryan to respond with base_URL for papers
 	for eachEvidence in evidences:
@@ -51,17 +52,15 @@ def askWatson(request):
 
 			response_data["evidences"].append(evidence)
 
-			existing_questions = CCQuestion.objects.filter(question_text=question_text).filter(asked_by_user=asked_by_user)
+			existing_questions = CCQuestion.objects.filter(question_text=question_text)
+			response_data["tempData"] = len(existing_questions)
 
-			if len(existing_users) > 0:
+			if len(existing_questions) > 0:
 				#Question asked before
 				existing_question = existing_questions[0]
 				errorMessage = "Info! You've asked this question before"
 			
 			else:
-
-				createNewAnswer()
-
 
 				question = CCQuestion()
 				question.question_text = question_text
@@ -69,17 +68,10 @@ def askWatson(request):
 				question.asked_by_user = CCUser.objects.filter(email=email)[0].user_id
 				question.from_project_id = from_project_id
 
+				confidence = 90
+				question.answers = 1 # addAnswer(trimmed_answer_base_URL, confidence, question.question_id)
 
-
-	answers = models.ForeignKey('CCAnswer')
-	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
-
-
-				user.first_name = first_name
-				user.last_name = last_name
-				user.email = email
-
-
+				question.save()
 
 		except: 
 			pass
