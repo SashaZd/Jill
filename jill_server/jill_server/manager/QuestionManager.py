@@ -72,6 +72,16 @@ def askWatson(request):
 				question.answers = 1 # addAnswer(trimmed_answer_base_URL, confidence, question.question_id)
 
 				question.save()
+	
+				answers = models.ForeignKey('CCAnswer')
+				from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
+
+
+				user.first_name = first_name
+				user.last_name = last_name
+				user.email = email
+
+
 
 		except: 
 			pass
