@@ -15,10 +15,10 @@ def projectRequest(request, project_id=None):
 	else:
 		return getProject(request, project_id)
 
-
 def createProject(request):
 	project_title = request.POST.get('project_title','')
 	created_by_user = request.POST.get('created_by_user','')
+	document_body = request.POST.get('document_body','')
 
 	project = None
 
@@ -40,6 +40,7 @@ def createProject(request):
 
 	project.created_by_user = user[0]
 	project.project_title = project_title
+	project.document_body = document_body
 	
 	project.save()
 
