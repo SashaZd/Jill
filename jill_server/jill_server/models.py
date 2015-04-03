@@ -93,6 +93,8 @@ class CCQuestion(models.Model):
 
 		return response_data
 
+class CCPaperReferences(models.Model):
+	reference_papers = models.ForeignKey('CCReferencePapers')
 
 class CCReferencePapers(models.Model):
 	evidence_text =  models.CharField(max_length=200)
