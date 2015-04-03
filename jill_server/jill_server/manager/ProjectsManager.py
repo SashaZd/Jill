@@ -15,15 +15,6 @@ def projectRequest(request, project_id=None):
 	else:
 		return getProject(request, project_id)
 
-def getProject(request, project_id):
-	existing_projects = CCProjects.objects.filter(id=project_id)
-	
-	if len(existing_projects) > 0:
-		foundProject = existing_projects[0]
-		response_data = foundProject.getResponseData()
-
-	return HttpResponse(json.dumps(response_data), content_type="application/json")
-
 
 def createProject(request):
 	project_title = request.POST.get('project_title','')
@@ -57,14 +48,15 @@ def createProject(request):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-# def getUser(request, user_id):
-# 	response_data = {}
-# 	if user_id:
-# 		users = CCUser.objects.filter(id=user_id)
-# 		#Ideally there shouldn't be duplicate users.
-# 		if len(users)>0:
-# 			user = users[0]
-# 			response_data = user.getResponseData()
+def getProject(request, project_id):
+	response_data = {}
+	if project_id:
+		projects = CCProjects.objects.filter(id=project_id)
+		#Ideally there shouldn't be duplicate users.
 
-# 	return HttpResponse(json.dumps(response_data), content_type="application/json")
+		if len(projects)>0:
+			project = projects[0]
+			response_data = project.getResponseData()
+
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
