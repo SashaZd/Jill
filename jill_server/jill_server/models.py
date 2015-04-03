@@ -9,7 +9,7 @@ class CCUser(models.Model):
 	email = models.EmailField(max_length=30)
 
 	def __unicode__(self):
-		return self.name
+		return self.first_name
 
 	def getResponseData(self):
 
@@ -62,11 +62,10 @@ class CCProjects(models.Model):
 # Table for Questions asked to Watson
 class CCQuestion(models.Model):
 	question_text = models.CharField(max_length=200)
-	evidence_list = models.ForeignKey('CCReferencePapers')
+	# evidence_list = models.ForeignKey('CCReferencePapers')
 	answers = models.ForeignKey('CCAnswer')
-	asked_by_user = models.ForeignKey('CCUser', related_name="asked_by_user")
+	# asked_by_user = models.ForeignKey('CCUser', related_name="asked_by_user")
 	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
-	question_id = models.CharField(max_length=200)
 
 	def __unicode__(self):
 	    return self.name
@@ -76,20 +75,17 @@ class CCQuestion(models.Model):
 		#Create Resposne Dictionary
 		response_data = {}
 		response_data["question_text"] = self.question_text
-		response_data["asked_by_user"] = self.asked_by_user.id
+		# response_data["asked_by_user"] = self.asked_by_user.id
 		response_data["from_project_id"] = self.from_project_id.id
-		response_data['question_id'] = self.question_id
+		response_data['question_id'] = self.id
 
 		# response_data["answers"] = self.answers.id
-
-		response_answers = []
-		answers = CCAnswer.objects.filter(question_id=self.id)
-
-		if answers and len(answers)>0:
-			for ans in answers: 
-				response_answers.append(ans.getResponseData())
-
-		response_data["answers"] = response_answers
+		# response_answers = []
+		# answers = CCAnswer.objects.filter(question_id=self.id)
+		# if answers and len(answers)>0:
+		# 	for ans in answers: 
+		# 		response_answers.append(ans.getResponseData())
+		# response_data["answers"] = response_answers
 
 		return response_data
 

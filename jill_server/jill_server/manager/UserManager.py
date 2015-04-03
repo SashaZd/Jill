@@ -11,11 +11,6 @@ from ..models import CCUser, CCQuestion, CCAnswer, CCReferencePapers, CCProjects
 
 @csrf_exempt
 def userRequest(request, user_id=None):
-	# if (user_id is None):
-	# 	user = getCurrentUser(request)
-	# 	if user:
-	# 		user_id = user.id
-
 	if request.method == "POST":
 		return createUser(request)
 	else:
