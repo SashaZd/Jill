@@ -19,15 +19,6 @@ class CCUser(models.Model):
 		response_data["last_name"] = self.last_name
 		response_data["email"] = self.email
 		response_data["user_id"] = self.id
-        
-		# questions_asked = CCQuestion.objects.filter(asked_by_user=self.id)
-		# response_questions = []
-
-		# if questions_asked and len(questions_asked) > 0:
-		#     for ques in questions_asked:
-		#         response_questions.append(ques.getResponseData())
-
-		# response_data["questions_asked"] = response_questions
 
 		projects_worked_on = []
 
@@ -53,7 +44,7 @@ class CCProjects(models.Model):
 		#Create Resposne Dictionary
 		response_data = {}
 		response_data["project_title"] = self.project_title
-		response_data["created_by_user"] = self.created_by_user
+		response_data["created_by_user"] = self.created_by_user.id
 		response_data['project_id'] = self.id
 
 		return response_data

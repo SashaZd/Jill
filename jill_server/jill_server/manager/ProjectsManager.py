@@ -25,26 +25,31 @@ def getProject(request, project_id):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def createNewProject(request):
+def createProject(request):
 	project_title = request.POST.get('project_title','')
 	created_by_user = request.POST.get('created_by_user','')
 
 	project = None
-	existing_projects = CCProjects.objects.filter(created_by_user=created_by_user).filter(project_title=project_title)
+
+	user = CCUser.objects.filter(id=created_by_user)
+	if len(user)==0:
+		errorMessage = "Error! This user doesn't exist. Your session has expired. Login again"
+		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
+
+	existing_projects = CCProjects.objects.filter(project_title=project_title).filter(created_by_user = user[0])
 
 	if len(existing_projects) > 0:
 		# Project Exists!
-		existing_user = existing_users[0]
+		project = existing_projects[0]
 		errorMessage = "Error! You have already created this project."
 		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
 
 	if project is None:
 		project = CCProjects()
+
+	project.created_by_user = user[0]
 	project.project_title = project_title
-
-	user = CCUser.objects.filter(id=created_by_user)
-
-	project.created_by_user = user
+	
 	project.save()
 
 	response_data = project.getResponseData()
