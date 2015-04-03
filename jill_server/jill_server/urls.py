@@ -11,13 +11,14 @@ urlpatterns = patterns('',
 
 # QuestionManager API Calls
 	url(r'^api/question/$', QuestionManager.askQuestion, name='question'),
+	
 
-
-# ProjectManager API Calls
+# ProjectsManager API Calls
 	url(r'^api/project/$', ProjectsManager.projectRequest),	
+	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest),
 
 
-
+# Other API Calls?
 	url(r'^$', 'jill_server.views.index', name='home'),
 	url(r'^login/$', 'jill_server.views.login', name='login'),
 	url(r'^projects/$', 'jill_server.views.projects', name='projects')
