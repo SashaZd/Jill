@@ -24,8 +24,6 @@ def askWatson(request):
 	from_project_id = request.POST.get('from_project_id','')
 	question_text = request.POST.get('question_text','')
 
-	# print askWatson("How do pinecones work?")
-
 	unformatted_response = askWatsonAPICall(question_text)
 
 	question_id = unformatted_response["question"]["id"]
@@ -39,52 +37,45 @@ def askWatson(request):
 	response_data["tempData"] = 99
 
 # # Waiting for Bryan to respond with base_URL for papers
-	for eachEvidence in evidences:
 		# evidence = CCReferencePapers()
-		try:
+	try:
+		for eachEvidence in evidences:
 			evidence = {}
-			evidence["evidence_text"] = eachEvidence["text"][:100]
-			evidence["paper_title"] = eachEvidence["metadataMap"]["title"][:100]
+			evidence["evidence_text"] = eachEvidence["text"]
+			evidence["paper_title"] = eachEvidence["metadataMap"]["title"]
 		
 			evidence["trimmed_document"] = trimmed_answer_base_URL+eachEvidence["document"]
 			evidence["originalFile"] = eachEvidence["metadataMap"]["originalfile"]
 			evidence["documentPath"] = ""
 
-			response_data["evidences"].append(evidence)
 
-			existing_questions = CCQuestion.objects.filter(question_text=question_text)
-			response_data["tempData"] = len(existing_questions)
+		response_data["evidences"].append(evidence)
 
-			if len(existing_questions) > 0:
-				#Question asked before
-				existing_question = existing_questions[0]
-				errorMessage = "Info! You've asked this question before"
-			
-			else:
+		existing_questions = CCQuestion.objects.filter(question_text=question_text)
+		response_data["tempData"] = len(existing_questions)
 
-				question = CCQuestion()
-				question.question_text = question_text
-				question.evidence_list = evidence
-				question.asked_by_user = CCUser.objects.filter(email=email)[0].user_id
-				question.from_project_id = from_project_id
+		question = CCQuestion()
+		question.question_text = question_text
+		question.evidence_list = evidence
+		question.asked_by_user = CCUser.objects.filter(email=email)[0].user_id
+		question.from_project_id = from_project_id
 
-				confidence = 90
-				question.answers = 1 # addAnswer(trimmed_answer_base_URL, confidence, question.question_id)
+		confidence = 90
+		question.answers = 1 # addAnswer(trimmed_answer_base_URL, confidence, question.question_id)
 
-				question.save()
-	
-				answers = models.ForeignKey('CCAnswer')
-				from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
+		question.save()
 
+		# answers = models.ForeignKey('CCAnswer')
+		# from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
 
-				user.first_name = first_name
-				user.last_name = last_name
-				user.email = email
+		# user.first_name = first_name
+		# user.last_name = last_name
+		# user.email = email
 
 
 
-		except: 
-			pass
+	except: 
+		pass
 	# response_data = {}
 	
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
