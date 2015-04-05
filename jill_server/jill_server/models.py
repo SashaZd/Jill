@@ -36,6 +36,7 @@ class CCProjects(models.Model):
 	project_title = models.CharField(max_length=200)
 	created_by_user = models.ForeignKey('CCUser', related_name="created_by_user")
 	document_body = models.TextField()
+	
 
 	def __unicode__(self):
 	    return self.name

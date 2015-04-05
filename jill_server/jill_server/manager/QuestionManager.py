@@ -34,7 +34,7 @@ def askWatson(request):
 	response_data["evidences"] = []
 
 	trimmed_answer_base_URL = "https://watson-wdc01.ihost.com"
-	response_data["tempData"] = 99
+	response_data["tempData"] = len(evidences)
 
 # # Waiting for Bryan to respond with base_URL for papers
 		# evidence = CCReferencePapers()
@@ -48,8 +48,7 @@ def askWatson(request):
 			evidence["originalFile"] = eachEvidence["metadataMap"]["originalfile"]
 			evidence["documentPath"] = ""
 
-
-		response_data["evidences"].append(evidence)
+			response_data["evidences"].append(evidence)
 
 		existing_questions = CCQuestion.objects.filter(question_text=question_text)
 		response_data["tempData"] = len(existing_questions)
