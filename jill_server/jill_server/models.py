@@ -56,7 +56,7 @@ class CCProjects(models.Model):
 # Table for Questions asked to Watson
 class CCQuestion(models.Model):
 	question_text = models.CharField(max_length=200)
-	answers = models.ForeignKey('CCAnswer')
+	# answers = models.ForeignKey('CCAnswer')
 	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
 
 	def __unicode__(self):
