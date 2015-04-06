@@ -48,6 +48,39 @@ fields: Email, Password, Name, u_id
 ```
 
 
+Project 
+======
+
+fields: project_title, created_by_user, document_body
+
+1. Create New Project 
+```
+	URL : api/project/
+	Type : POST
+	Param : project_title, created_by_user, document_body 
+	Sample Response: 
+		{"project_id": 2, "document_body": "This is old", "project_title": "Yet Another Project", "created_by_user": 1}
+```
+
+2. Get Project
+```
+	URL : api/project/{project_id}/
+	Type : GET
+	Sample Response: 
+		{"project_id": 2, "document_body": "This is old", "project_title": "Yet Another Project", "created_by_user": 1}
+```
+
+3. Update Project
+Note: Any field that shouldn't be changed should be sent in the params as an empty string
+```
+	URL : api/project/1/
+	Type : POST
+	Param : project_title, created_by_user, document_body 
+	Sample Response: 
+		{"project_id": 1, "document_body": "This is new", "project_title": "New Project Changed", "created_by_user": 1}
+```
+
+
 Research Paper 
 ======
 fields : r_id, title, main text, references, qid, uid, reference_style

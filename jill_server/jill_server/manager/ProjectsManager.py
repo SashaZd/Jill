@@ -11,14 +11,17 @@ from ..models import CCUser, CCQuestion, CCAnswer, CCReferencePapers, CCProjects
 @csrf_exempt
 def projectRequest(request, project_id=None):
 	if request.method == "POST":
-		return createProject(request)
+		if project_id is None:
+			return createProject(request)
+		else:
+			return updateProject(request,project_id)
 	else:
 		return getProject(request, project_id)
-
 
 def createProject(request):
 	project_title = request.POST.get('project_title','')
 	created_by_user = request.POST.get('created_by_user','')
+	document_body = request.POST.get('document_body','')
 
 	project = None
 
@@ -40,12 +43,49 @@ def createProject(request):
 
 	project.created_by_user = user[0]
 	project.project_title = project_title
+	project.document_body = document_body
 	
 	project.save()
 
 	response_data = project.getResponseData()
 
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def updateProject(request, project_id):
+	project_title = request.POST.get('project_title','')
+	created_by_user = request.POST.get('created_by_user','')
+	document_body = request.POST.get('document_body','')
+
+	project = None
+
+	user = CCUser.objects.filter(id=created_by_user)
+	if len(user) == 0:
+		errorMessage = "Error! This user doesn't exist. Your session has expired. Login again"
+		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
+
+	existing_projects = CCProjects.objects.filter(id=project_id).filter(created_by_user = user[0])
+
+	project = None
+	if len(existing_projects) > 0:
+		#Project Exists!
+		project = existing_projects[0]
+		if project_title != "":
+			project.project_title = project_title
+		if document_body != "":
+			project.document_body = document_body
+		project.save()
+
+	if project == None:
+		errorMessage = "Error! This project doesn't exist!"
+		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
+
+
+	response_data = project.getResponseData()
+
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
 
 
 def getProject(request, project_id):

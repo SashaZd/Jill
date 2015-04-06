@@ -35,6 +35,8 @@ class CCUser(models.Model):
 class CCProjects(models.Model):
 	project_title = models.CharField(max_length=200)
 	created_by_user = models.ForeignKey('CCUser', related_name="created_by_user")
+	document_body = models.TextField()
+	
 
 	def __unicode__(self):
 	    return self.name
@@ -45,6 +47,7 @@ class CCProjects(models.Model):
 		response_data = {}
 		response_data["project_title"] = self.project_title
 		response_data["created_by_user"] = self.created_by_user.id
+		response_data["document_body"] = self.document_body
 		response_data['project_id'] = self.id
 
 		return response_data
@@ -80,15 +83,13 @@ class CCQuestion(models.Model):
 
 		return response_data
 
-class CCPaperReferences(models.Model):
-	reference_papers = models.ForeignKey('CCReferencePapers')
-
 class CCReferencePapers(models.Model):
 	evidence_text =  models.CharField(max_length=200)
 	paper_title =  models.CharField(max_length=200)
 	paper_author = models.CharField(max_length=200)
 	paper_link =  models.CharField(max_length=200)
 	answer_id = models.ForeignKey('CCAnswer', related_name="answer_id")
+	referenced_by_project = models.ManyToManyField(CCProjects)
 
 	def __unicode__(self):
 	    return self.name
@@ -100,8 +101,8 @@ class CCReferencePapers(models.Model):
 		response_data["evidence_text"] = self.evidence_text
 		response_data["paper_title"] = self.paper_title
 		response_data["paper_link"] = self.paper_link
-		# response_data["answer_id"] = self.answer_id.id
 		response_data['paper_id'] = self.id
+		response_data['referenced_by_project'] = self.referenced_by_project.all()
 
 		return response_data
 
