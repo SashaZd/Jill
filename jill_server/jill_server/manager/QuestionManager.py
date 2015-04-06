@@ -43,7 +43,6 @@ def askWatson(request):
 			evidence = {}
 			evidence["evidence_text"] = eachEvidence["text"]
 			evidence["paper_title"] = eachEvidence["metadataMap"]["title"]
-		
 			evidence["trimmed_document"] = trimmed_answer_base_URL+eachEvidence["document"]
 			evidence["originalFile"] = eachEvidence["metadataMap"]["originalfile"]
 			evidence["documentPath"] = ""
@@ -59,23 +58,11 @@ def askWatson(request):
 		question.asked_by_user = CCUser.objects.filter(email=email)[0].user_id
 		question.from_project_id = from_project_id
 
-		confidence = 90
-		question.answers = 1 # addAnswer(trimmed_answer_base_URL, confidence, question.question_id)
-
 		question.save()
-
-		# answers = models.ForeignKey('CCAnswer')
-		# from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
-
-		# user.first_name = first_name
-		# user.last_name = last_name
-		# user.email = email
-
 
 
 	except: 
 		pass
-	# response_data = {}
 	
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 

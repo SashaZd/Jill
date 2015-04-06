@@ -56,9 +56,7 @@ class CCProjects(models.Model):
 # Table for Questions asked to Watson
 class CCQuestion(models.Model):
 	question_text = models.CharField(max_length=200)
-	# evidence_list = models.ForeignKey('CCReferencePapers')
 	answers = models.ForeignKey('CCAnswer')
-	# asked_by_user = models.ForeignKey('CCUser', related_name="asked_by_user")
 	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
 
 	def __unicode__(self):
@@ -73,14 +71,6 @@ class CCQuestion(models.Model):
 		response_data["from_project_id"] = self.from_project_id.id
 		response_data['question_id'] = self.id
 
-		# response_data["answers"] = self.answers.id
-		# response_answers = []
-		# answers = CCAnswer.objects.filter(question_id=self.id)
-		# if answers and len(answers)>0:
-		# 	for ans in answers: 
-		# 		response_answers.append(ans.getResponseData())
-		# response_data["answers"] = response_answers
-
 		return response_data
 
 class CCReferencePapers(models.Model):
@@ -88,8 +78,8 @@ class CCReferencePapers(models.Model):
 	paper_title =  models.CharField(max_length=200)
 	paper_author = models.CharField(max_length=200)
 	paper_link =  models.CharField(max_length=200)
-	answer_id = models.ForeignKey('CCAnswer', related_name="answer_id")
 	referenced_by_project = models.ManyToManyField(CCProjects)
+	question_id = models.ForeignKey('CCQuestion', related_name="question_id")
 
 	def __unicode__(self):
 	    return self.name
@@ -98,11 +88,20 @@ class CCReferencePapers(models.Model):
 
 		#Create Resposne Dictionary
 		response_data = {}
+
 		response_data["evidence_text"] = self.evidence_text
 		response_data["paper_title"] = self.paper_title
+		response_data["paper_author"] = self.paper_author
 		response_data["paper_link"] = self.paper_link
 		response_data['paper_id'] = self.id
-		response_data['referenced_by_project'] = self.referenced_by_project.all()
+
+		# Need later, maybe? Don't delete the next code segment
+		all_associated_projects = self.referenced_by_project.all()
+		response_data['referenced_by_project'] = {}
+
+		if len(all_associated_projects) > 0:
+			for eachProj in all_associated_projects:
+				response_data['referenced_by_project'].append(eachProj.id)
 
 		return response_data
 
