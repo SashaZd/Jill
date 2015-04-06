@@ -1,2 +1,4 @@
 *.py[cod]
 jill_server/*.sqlite3
+*.pyc
+
