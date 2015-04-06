@@ -17,10 +17,36 @@ import requests
 def askQuestion(request, user_id=None):
 	if request.method == "POST":
 		return askWatson(request)
+
+def addQuestion(question_text, from_project_id):
 	
+	existing_questions = CCQuestion.objects.filter(question_text=question_text).filter(from_project_id=from_project_id)
+	
+	question = None
+
+	if len(existing_questions) > 0:
+		#Question already exists
+		errorMessage = "Error! Question already exists."
+		question = existing_questions[0]
+		response_data = question.getResponseData()
+		return True
+
+	if question == None:
+		question = CCQuestion()
+
+	question.question_text = question_text
+	from_project = CCProjects.objects.filter(id=from_project_id)
+
+	if len(from_project) > 0:
+		project = from_project[0]
+
+	question.from_project_id = project
+
+	question.save()
+
+	return True
 
 def askWatson(request):
-	asked_by_user = request.POST.get('email','')
 	from_project_id = request.POST.get('from_project_id','')
 	question_text = request.POST.get('question_text','')
 
@@ -38,6 +64,9 @@ def askWatson(request):
 
 # # Waiting for Bryan to respond with base_URL for papers
 		# evidence = CCReferencePapers()
+
+	temp = addQuestion(question_text, from_project_id)
+
 	try:
 		for eachEvidence in evidences:
 			evidence = {}
@@ -46,19 +75,9 @@ def askWatson(request):
 			evidence["trimmed_document"] = trimmed_answer_base_URL+eachEvidence["document"]
 			evidence["originalFile"] = eachEvidence["metadataMap"]["originalfile"]
 			evidence["documentPath"] = ""
-
 			response_data["evidences"].append(evidence)
 
-		existing_questions = CCQuestion.objects.filter(question_text=question_text)
-		response_data["tempData"] = len(existing_questions)
-
-		question = CCQuestion()
-		question.question_text = question_text
-		question.evidence_list = evidence
-		question.asked_by_user = CCUser.objects.filter(email=email)[0].user_id
-		question.from_project_id = from_project_id
-
-		question.save()
+	
 
 
 	except: 
