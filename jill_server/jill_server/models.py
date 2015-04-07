@@ -39,7 +39,7 @@ class CCProjects(models.Model):
 	
 
 	def __unicode__(self):
-	    return self.name
+	    return self.project_title
 
 	def getResponseData(self):
 

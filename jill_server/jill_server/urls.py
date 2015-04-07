@@ -14,9 +14,12 @@ urlpatterns = patterns('',
 	
 
 # ProjectsManager API Calls
-	url(r'^api/project/$', ProjectsManager.projectRequest),	
-	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest),
+	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
+	url(r'^api/project/list/$', ProjectsManager.getAllProjects, name='getAllProjects'),
+	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest, name='projectReturn'),
 
+#ReferebcePaperManager API alls
+	url(r'^api/reference/$',ReferencePapersManager.createReference),
 
 # Other API Calls?
 	url(r'^$', 'jill_server.views.index', name='home'),

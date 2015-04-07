@@ -20,6 +20,7 @@ def paperRequest(request, reference_id=None):
 	else:
 		return getReference(request, reference_id)
 
+@csrf_exempt
 def createReference(request):
 	evidence_text =  request.POST.get('evidence_text','')
 	paper_title =  request.POST.get('paper_title','')
@@ -30,7 +31,7 @@ def createReference(request):
 
 	paper = None
 	
-	existing_projects = CCProjects.objects.filter(project_id=project_id)
+	existing_projects = CCProjects.objects.filter(id=project_id)
 
 	if len(existing_projects) == 0:
 		#Project doesn't exist!
@@ -49,7 +50,7 @@ def createReference(request):
 	referencePaper.paper_title = paper_title
 	referencePaper.paper_author = paper_author
 	referencePaper.paper_link = paper_link
-	referencePaper.project_id = project_id
+	referencePaper.referenced_by_project.add(existing_projects)
 	referencePaper.question_id = question_id
 
 	referencePaper.save()
@@ -61,8 +62,15 @@ def returnReferenceInFormat(request):
 	pass
 
 
-def updateReference(request):
+def deleteReference(request):
+	evidence_text =  request.POST.get('evidence_text','')
+	paper_title =  request.POST.get('paper_title','')
+	paper_author = request.POST.get('paper_author','')
+	paper_link =  request.POST.get('paper_link','')
+	project_id = request.POST.get('project_id','')
+	question_id = request.POST.get('question_id','')
 	pass
 
 def getReference(request, reference_id):
+
 	pass

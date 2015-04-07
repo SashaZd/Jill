@@ -7,9 +7,11 @@
     <script src="{% static "js/vendor/modernizr.js"%}"></script>
   <script src="{% static "js/vendor/jquery.js"%}"></script>
   <script src="{% static "js/foundation.min.js"%}"></script>
+  <script src="{% static "bower_components/angular/angular.js"%}" charset="utf-8"></script>
   </head>
-  <body>
+  <body ng-app="jill">
 
+{% verbatim %}
 
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
@@ -39,39 +41,35 @@
 <br />
 
 
-	<div class="large-3 large-centered columns">
-  <div class="projects">
+	<div class="large-10 largeg-centered columns" ng-controller="ProjectController"> 
+  <div class="">
   <div class="row">
   <div class="large-12 columns">
-    <form>
+    <div class="large-12 columns">
+    <form novalidate>
+    <input type="hidden" ng-model="user_id">
+      Add a Project <br />
+          <div class="row collapse">
+        <div class="small-10 columns">
+        <input type="text" ng-model="new_project_name">
+        </div>
+        <div class='small-2 columns'>
+        <a  ng-click="addProject()" class='postfix button tiny'>Create</a>
+        </div>
+        </div>
+  </form>
+    </div>
     <div class="large-12 columns">
     <label> Select a project to start: </label>
-    </div>
-       <div class="row">
-         <div class="large-12 columns">
-             
-             <input type="radio" name="radio" value="r1" checked > BID_assignment 1
+       <div class="row" ng-repeat="project in projects">
+         <div class="large-3 columns" style="paddding:20px;background:#888">
+             {{project_title}}
+         </div>
          </div>
        </div>
-      <div class="row">
-         <div class="large-12 columns">
-             <input type="radio" name="radio" value="r2"> BID_assignment 2
-         </div>
-      </div>
-      <div class="row">
-         <div class="large-12 columns">
-             <input type="radio" name="radio" value="r3">  BID_assignment 3
-         </div>
-      </div>
-      <div class="row">
-        <div class="large-12 large-centered columns">
-        <a href="{% url 'home' %}">
-          <input type="button" id="launch" class="button expand" value="Launch"/>
-          </a>
         
         </div>
       </div>
-    </form>
   </div>
 </div>
 </div>
@@ -80,3 +78,58 @@
 
 </body>
 </html>
+{% endverbatim %}
+
+<script type="text/javascript">
+
+var app=angular.module("jill",[]);
+app.controller('ProjectController',  function($scope,$http) {
+  $scope.new_project_name="";
+  $scope.user_id="1";
+  $scope.projects=[];
+
+  var responsePromise = $http({
+      method: 'get',
+      url: "{% url 'getAllProjects' %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      params: {created_by_user:$scope.user_id}
+    });
+
+    responsePromise.success(function(data, status, headers, config)  {
+      $scope.projects=data;
+      console.log(data);
+    });
+    responsePromise.error(function(data, status, headers, config) {
+      alert("AJAX failed!");
+  });
+
+
+  $scope.addToReferences=function(i){
+    $scope.references.push($scope.answers[i]);
+    console.log($scope.references)
+    $('#ask_jill_modal').foundation('reveal', 'close');
+  }
+
+  //$scope.papers=papers;
+  //Ask Jill
+  $scope.searchfunction=function(){
+    $scope.search=tinyMCE.activeEditor.selection.getContent();
+    $('#ask_jill_modal').foundation('reveal', 'open');
+    $scope.searchmodal=true;
+    returnAnAnswer('cjds@live.com','1',$scope.search);
+  }
+
+  $scope.clickOnPaper=function(i){
+    $scope.searchmodal=false; // switching to the details
+    
+    $scope.information=$scope.answers[i];
+    $scope.information.index=i;
+  }
+
+  $scope.back=function(){
+    $scope.searchmodal=true;
+  }
+
+});
+
+</script>
