@@ -36,7 +36,7 @@
         <ul class="dropdown">
         <li><a href="#">My Library</a></li>        
           <li><a href="#">Settings</a></li>
-          <li><a href="#">Logout</a></li>
+          <li><a href="login">Logout</a></li>
           
         </ul>
       </li>
@@ -61,7 +61,8 @@
 <div class='large-4 medium-2 small-12 columns'>
 	<div class='box panel'  ng-repeat="paper in references">
 		<span style='text-decoration:underline;font-weight:600'>{{paper.paper_title}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
-		<p style="font-size:0.8em">	{{paper.evidence_text}}</p>
+		<p style="font-size:0.8em">	{{paper.evidence_text| limitTo:numLimit }}</p>
+    <a href="#" ng-click="deleteReference($index)">Delete</a>
 	</div>
 </div>
 </div>
@@ -71,13 +72,13 @@
 	<div ng-show="searchmodal" ng-repeat="answer in answers">
   	<div class='box panel' ng-click="clickOnPaper($index)">
     	<span style='text-decoration:underline;font-weight:600'>{{answer.paper_title}} <i ng-repeat="author in answer.author">{{author}}, </i></span>
-    	<p style="font-size:0.8em"> {{answer.evidence_text}}</p>
+    	<p style="font-size:0.8em"> {{answer.evidence_text| limitTo:numLimit }}</p>
     </div>
   </div>
   
   <div ng-hide="searchmodal">
-  <a href="#" ng-click="back()">Back</a>
-  <h2>{{information.paper_title}}</h2>
+  <a href="#" ng-click="back()" class='button'>Back</a>
+  <h4>{{information.paper_title}}</h4>
   <p>{{information.evidence_text}}</p>
 	<a href="#" ng-click="addToReferences(information.index)">Add To List</a> | <a target="_blank" href="{{information.trimmed_document}}">Link to paper</a>
   </div>
@@ -133,6 +134,7 @@ var app=angular.module("jill",[]);
 app.controller('MainController',  function($scope,$http) {
 
   $scope.references=[];
+  $scope.numLimit=100;
 
   function returnAnAnswer(email,project_id,question_text){
     var responsePromise = $http({
@@ -151,11 +153,28 @@ app.controller('MainController',  function($scope,$http) {
 
   }
 
+  $scope.deleteReference=function(index){
+      $scope.addToReferences.splice(index, 1);
+  }
 
   $scope.addToReferences=function(i){
     $scope.references.push($scope.answers[i]);
-    console.log($scope.references)
     $('#ask_jill_modal').foundation('reveal', 'close');
+    //http://localhost:8000/api/reference/
+    var responsePromise = $http({
+      method: 'post',
+      url: "{% url 'reference' %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      data: $.param({email:email,from_project_id:project_id,question_text:question_text})
+    });
+
+    responsePromise.success(function(data, status, headers, config)  {
+      $scope.answers=data.evidences;
+    });
+    responsePromise.error(function(data, status, headers, config) {
+      alert("AJAX failed!");
+    });
+
   }
 
 	//$scope.papers=papers;

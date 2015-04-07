@@ -19,7 +19,8 @@ urlpatterns = patterns('',
 	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest, name='projectReturn'),
 
 #ReferebcePaperManager API alls
-	url(r'^api/reference/$',ReferencePapersManager.createReference),
+	url(r'^api/reference/$',ReferencePapersManager.createReference, name='reference'),
+	url(r'^api/project/(?P<reference_id>\d*)/$', ReferencePapersManager.getReference, name='get_reference'),
 
 # Other API Calls?
 	url(r'^$', 'jill_server.views.index', name='home'),
