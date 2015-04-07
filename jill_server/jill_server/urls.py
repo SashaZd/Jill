@@ -15,15 +15,15 @@ urlpatterns = patterns('',
 
 # ProjectsManager API Calls
 	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
-	url(r'^api/project/list/$', ProjectsManager.getAllProjects, name='getAllProjects'),
+	url(r'^api/project/list/$', ProjectsManager.createProject, name='createProject'),
 	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest, name='projectReturn'),
 
 #ReferebcePaperManager API alls
 	url(r'^api/reference/$',ReferencePapersManager.createReference),
 
 # Other API Calls?
-	url(r'^$', 'jill_server.views.index', name='home'),
-	url(r'^login/$', 'jill_server.views.login', name='login'),
+	url(r'^home/$', 'jill_server.views.index', name='home'),
+	url(r'^$', 'jill_server.views.login', name='login'),
 	url(r'^projects/$', 'jill_server.views.projects', name='projects')
 
 
