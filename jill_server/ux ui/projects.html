@@ -54,7 +54,9 @@
         <input type="text" ng-model="new_project_name">
         </div>
         <div class='small-2 columns'>
-        <a  ng-click="addProject()" class='postfix button tiny'>Create</a>
+        
+        <a  ng-click="addProject()" class='postfix button tiny' >Create</a>
+        
         </div>
         </div>
   </form>
@@ -145,6 +147,9 @@ app.controller('ProjectController',  function($scope,$http) {
     responsePromise.error(function(data, status, headers, config) {
       alert("AJAX failed!");
     });
+
+    window.alert(" Project Started: " + $scope.new_project_name );
+     window.location = "{% url 'currentProject' %}";
 
   }
 
