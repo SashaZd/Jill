@@ -6,7 +6,7 @@ from manager import UserManager, QuestionManager, AnswerManager, ReferencePapers
 urlpatterns = patterns('',
 
 # UserManager API Calls
-	url(r'^api/user/$', UserManager.userRequest),
+	url(r'^api/user/$', UserManager.userRequest, name='userrequest'),
 	url(r'^api/user/(?P<user_id>\d*)/$', UserManager.userRequest),
 
 # QuestionManager API Calls
@@ -27,7 +27,7 @@ urlpatterns = patterns('',
 	url(r'^home/project$', 'jill_server.views.index', name='currentProject'),
 	url(r'^$', 'jill_server.views.login', name='login'),
 	url(r'^projects/$', 'jill_server.views.projects', name='projects'),
-	url(r'^signup$', 'jill_server.views.signup', name='signup')
+	url(r'^signup/$', 'jill_server.views.signup', name='signup')
 
 
 	# Examples:

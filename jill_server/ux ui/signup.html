@@ -8,8 +8,11 @@
     <script src="{% static "js/vendor/modernizr.js"%}"></script>
   <script src="{% static "js/vendor/jquery.js"%}"></script>
   <script src="{% static "js/foundation.min.js"%}"></script>
+  <script src="{% static "bower_components/angular/angular.js"%}" charset="utf-8"></script>
+
   </head>
-  <body>
+  {% verbatim %}
+  <body ng-app="jill">
 
 <nav class="top-bar" data-topbar role="navigation">
   <ul class="title-area">
@@ -40,7 +43,7 @@
 
 
 
-    <div class="row">
+    <div class="row" ng-controller="Signup">
     <div class="large-6 columns">
       <div class="signup-panel">
         <p class="welcome"> Welcome to this awesome app!</p>
@@ -50,7 +53,7 @@
               <span class="prefix"><i class="fi-torso-female"></i></span>
             </div>
             <div class="small-10  columns">
-              <input type="text" placeholder="username">
+              <input type="text" placeholder="username" ng-model="username">
             </div>
           </div>
           <div class="row collapse">
@@ -58,7 +61,7 @@
               <span class="prefix"><i class="fi-mail"></i></span>
             </div>
             <div class="small-10  columns">
-              <input type="text" placeholder="email">
+              <input type="text" placeholder="email" ng-model="email">
             </div>
           </div>
           <div class="row collapse">
@@ -66,11 +69,11 @@
               <span class="prefix"><i class="fi-lock"></i></span>
             </div>
             <div class="small-10 columns ">
-              <input type="text" placeholder="password">
+              <input type="text" placeholder="password" ng-model="pass">
             </div>
           </div>
         </form>
-        <a href="#" class="button ">Sign Up! </a>
+        <a href="#" class="button" ng-click="addUser()">Sign Up! </a>
          <p>Already have an account? <a href="/">Login here &raquo</a></p>
       </div>
     </div>
@@ -79,3 +82,30 @@
 
 </body>
 </html>
+
+{% endverbatim %}
+<script type='text/javascript'>
+
+// Add post request for user ---------------
+
+var app=angular.module("jill",[]);
+app.controller('Signup',  function($scope,$http) {
+
+$scope.addUser=function(name, email, password){
+    var responsePromise = $http({
+      method: 'post',
+      url: "{% url 'userrequest' %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      data: $.param({first_name:$scope.username,email:$scope.email})
+    });
+
+    responsePromise.success(function(data, status, headers, config)  {
+      $scope.answers=data.evidences;
+    });
+    responsePromise.error(function(data, status, headers, config) {
+      alert("AJAX failed!");
+    });
+
+  }
+});
+</script>
