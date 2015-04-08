@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 
 # QuestionManager API Calls
 	url(r'^api/question/$', QuestionManager.askQuestion, name='question'),
-	
+	url(r'^api/addquestion/$', QuestionManager.addQuestion, name='questionCreate'),	
 
 # ProjectsManager API Calls
 	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
@@ -20,7 +20,8 @@ urlpatterns = patterns('',
 
 #ReferebcePaperManager API alls
 	url(r'^api/reference/$',ReferencePapersManager.createReference, name='reference'),
-	url(r'^api/project/(?P<reference_id>\d*)/$', ReferencePapersManager.getReference, name='get_reference'),
+	url(r'^api/reference/remove/$', ReferencePapersManager.deleteReference, name='delete_reference'),
+	url(r'^api/reference/getall$', ReferencePapersManager.getReference, name='getreference'),
 
 # Other API Calls?
 	url(r'^home/$', 'jill_server.views.index', name='home'),

@@ -29,7 +29,7 @@ def addQuestion(question_text, from_project_id):
 		errorMessage = "Error! Question already exists."
 		question = existing_questions[0]
 		response_data = question.getResponseData()
-		return True
+		return question.id
 
 	if question == None:
 		question = CCQuestion()
@@ -44,7 +44,7 @@ def addQuestion(question_text, from_project_id):
 
 	question.save()
 
-	return True
+	return question.id
 
 def askWatson(request):
 	from_project_id = request.POST.get('from_project_id','')
@@ -56,7 +56,7 @@ def askWatson(request):
 	evidences = unformatted_response["question"]["evidencelist"]
 
 	response_data = {}
-	response_data["question_id"]= question_id
+	
 	response_data["evidences"] = []
 
 	trimmed_answer_base_URL = "https://watson-wdc01.ihost.com"
@@ -66,7 +66,7 @@ def askWatson(request):
 		# evidence = CCReferencePapers()
 
 	temp = addQuestion(question_text, from_project_id)
-
+	response_data["question_id"]= temp
 	try:
 		for eachEvidence in evidences:
 			evidence = {}
