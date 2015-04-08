@@ -60,8 +60,8 @@
 </div>
 <div class='large-4 medium-2 small-12 columns'>
 	<div class='box panel'  ng-repeat="paper in references">
-		<span style='text-decoration:underline;font-weight:600'>{{paper.paper_title}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
-		<p style="font-size:0.8em">	{{paper.evidence_text| limitTo:numLimit }}</p>
+		<span style='text-decoration:underline;font-weight:600'>{{paper.fields.paper_title}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
+		<p style="font-size:0.8em">	{{paper.fields.evidence_text| limitTo:numLimit }}</p>
     <a href="#" ng-click="deleteReference($index)">Delete</a>
 	</div>
 </div>
@@ -135,17 +135,21 @@ app.controller('MainController',  function($scope,$http) {
 
   $scope.references=[];
   $scope.numLimit=100;
+  $scope.project_id=1;
+  $scope.question_id=-1;
+  updateReferences();
 
   function returnAnAnswer(email,project_id,question_text){
     var responsePromise = $http({
       method: 'post',
       url: "{% url 'question' %}",
       headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
-      data: $.param({email:email,from_project_id:project_id,question_text:question_text})
+      data: $.param({email:email,from_project_id:project_id,question_text:question_text}),
     });
 
     responsePromise.success(function(data, status, headers, config)  {
       $scope.answers=data.evidences;
+      $scope.question_id=data.question_id;
     });
     responsePromise.error(function(data, status, headers, config) {
       alert("AJAX failed!");
@@ -153,24 +157,60 @@ app.controller('MainController',  function($scope,$http) {
 
   }
 
+  function updateReferences(){
+     $http({
+      method: 'post',
+      url: "{% url 'getreference' %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      data:$.param({project_id:$scope.project_id,})
+    }).success(function(data, status, headers, config)  {
+      $scope.references=data;
+      console.log(data);
+    })
+    .error(function(data, status, headers, config) {
+      alert("AJAX failed!");
+    });
+  }
+
   $scope.deleteReference=function(index){
-      $scope.addToReferences.splice(index, 1);
+    var responsePromise = $http({
+      method: 'post',
+      url: "{% url 'delete_reference' %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      data: $.param({
+          reference_id:$scope.references[index].pk,
+          project_id:$scope.project_id
+    })
+    });
+
+    responsePromise.success(function(data, status, headers, config)  {
+          updateReferences();
+    });
+
+    responsePromise.error(function(data, status, headers, config) {
+      alert("AJAX failed!");
+    });
   }
 
   $scope.addToReferences=function(i){
-    $scope.references.push($scope.answers[i]);
     $('#ask_jill_modal').foundation('reveal', 'close');
-    //http://localhost:8000/api/reference/
     var responsePromise = $http({
       method: 'post',
       url: "{% url 'reference' %}",
       headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
-      data: $.param({email:email,from_project_id:project_id,question_text:question_text})
+      data: $.param({
+          evidence_text:$scope.answers[i].evidence_text,
+          paper_title:$scope.answers[i].paper_title,
+          paper_author:'',
+          paper_link:$scope.answers[i].paper_link,
+          project_id:$scope.project_id,
+          question_id:$scope.question_id})
     });
 
     responsePromise.success(function(data, status, headers, config)  {
-      $scope.answers=data.evidences;
+          updateReferences();
     });
+
     responsePromise.error(function(data, status, headers, config) {
       alert("AJAX failed!");
     });
@@ -183,6 +223,7 @@ app.controller('MainController',  function($scope,$http) {
 		$scope.search=tinyMCE.activeEditor.selection.getContent();
 		$('#ask_jill_modal').foundation('reveal', 'open');
 		$scope.searchmodal=true;
+    $scope.answers=[];
     returnAnAnswer('cjds@live.com','1',$scope.search);
 	}
 
@@ -200,3 +241,4 @@ app.controller('MainController',  function($scope,$http) {
 });
 
 </script>
+

@@ -2,10 +2,12 @@
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.core import serializers
 from datetime import datetime, timedelta
 
 # Other Imports
 from ..models import CCUser, CCQuestion, CCAnswer, CCReferencePapers, CCProjects
+
 import urllib
 
 # Watson Specific Imports
@@ -61,7 +63,8 @@ def returnReferenceInFormat(request):
 	pass
 
 @csrf_exempt
-def deleteReference(request, reference_id):
+def deleteReference(request):
+	reference_id = request.POST.get('reference_id','')
 	instance = CCReferencePapers.objects.filter(id=reference_id)
 	
 	if len(instance) == 0:
@@ -71,6 +74,15 @@ def deleteReference(request, reference_id):
 	instance.delete()		
 	return HttpResponse(json.dumps({'success': True}), content_type="application/json")	
 
-def getReference(request, reference_id):
+@csrf_exempt
+def getReference(request):
+	project_id = request.POST.get('project_id','')
+	existing_projects = CCProjects.objects.filter(id=project_id)
+	if len(existing_projects) == 0:
+		#Project doesn't exist!
+		errorMessage = "Error! This project doesn't exist"
+		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
 
-	pass
+	existing_papers = CCReferencePapers.objects.filter(referenced_by_project=existing_projects[0]).all()
+	data = serializers.serialize('json', existing_papers)		
+	return HttpResponse(data, content_type="application/json")

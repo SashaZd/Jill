@@ -20,8 +20,8 @@ urlpatterns = patterns('',
 
 #ReferebcePaperManager API alls
 	url(r'^api/reference/$',ReferencePapersManager.createReference, name='reference'),
-	url(r'^api/reference/remove/(?P<reference_id>\d*)/$', ReferencePapersManager.deleteReference, name='delete_reference'),
-	url(r'^api/reference/(?P<reference_id>\d*)/$', ReferencePapersManager.getReference, name='delete_reference'),
+	url(r'^api/reference/remove/$', ReferencePapersManager.deleteReference, name='delete_reference'),
+	url(r'^api/reference/getall$', ReferencePapersManager.getReference, name='getreference'),
 
 # Other API Calls?
 	url(r'^home/$', 'jill_server.views.index', name='home'),
