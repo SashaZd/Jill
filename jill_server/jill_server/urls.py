@@ -26,7 +26,8 @@ urlpatterns = patterns('',
 	url(r'^home/$', 'jill_server.views.index', name='home'),
 	url(r'^home/project$', 'jill_server.views.index', name='currentProject'),
 	url(r'^$', 'jill_server.views.login', name='login'),
-	url(r'^projects/$', 'jill_server.views.projects', name='projects')
+	url(r'^projects/$', 'jill_server.views.projects', name='projects'),
+	url(r'^signup$', 'jill_server.views.signup', name='signup')
 
 
 	# Examples:
