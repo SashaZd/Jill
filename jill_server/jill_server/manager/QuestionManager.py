@@ -53,22 +53,23 @@ def askWatson(request):
 	unformatted_response = askWatsonAPICall(question_text)
 
 	question_id = unformatted_response["question"]["id"]
-	evidences = unformatted_response["question"]["evidencelist"]
+	evidencelist = unformatted_response["question"]["evidencelist"]
 
 	response_data = {}
 	
 	response_data["evidences"] = []
 
 	trimmed_answer_base_URL = "https://watson-wdc01.ihost.com"
-	response_data["tempData"] = len(evidences)
+	response_data["tempData"] = len(evidencelist)
 
 # # Waiting for Bryan to respond with base_URL for papers
 		# evidence = CCReferencePapers()
 
 	temp = addQuestion(question_text, from_project_id)
 	response_data["question_id"]= temp
-	try:
-		for eachEvidence in evidences:
+
+	for eachEvidence in evidencelist:
+		try:
 			evidence = {}
 			evidence["evidence_text"] = eachEvidence["text"]
 			evidence["paper_title"] = eachEvidence["metadataMap"]["title"]
@@ -77,11 +78,8 @@ def askWatson(request):
 			evidence["documentPath"] = ""
 			response_data["evidences"].append(evidence)
 
-	
-
-
-	except: 
-		pass
+		except: 
+			pass
 	
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
