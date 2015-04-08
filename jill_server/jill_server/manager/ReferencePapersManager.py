@@ -32,13 +32,13 @@ def createReference(request):
 	paper = None
 	
 	existing_projects = CCProjects.objects.filter(id=project_id)
-
+	existing_question = CCQuestion.objects.filter(id=question_id)
 	if len(existing_projects) == 0:
 		#Project doesn't exist!
 		errorMessage = "Error! This project doesn't exist"
 		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
 
-	existing_papers = CCReferencePapers.objects.filter(paper_title=paper_title).filter(referenced_by_project = int(project_id)).filter(question_id = question_id)
+	existing_papers = CCReferencePapers.objects.filter(paper_title=paper_title)
 	if len(existing_papers) > 0:
 		# Ref. Paper exists! Edit the evidence text showing to point to the new evidence text?
 		errorMessage = "Error! This paper has already been added"
@@ -49,10 +49,10 @@ def createReference(request):
 	referencePaper.paper_title = paper_title
 	referencePaper.paper_author = paper_author
 	referencePaper.paper_link = paper_link
-	referencePaper.referenced_by_project.add(existing_projects)
-	referencePaper.question_id = question_id
-
+	
+	referencePaper.question_id = existing_question[0]
 	referencePaper.save()
+	referencePaper.referenced_by_project.add(existing_projects[0])
 
 	return HttpResponse(json.dumps({'success': True}), content_type="application/json")
 
@@ -60,15 +60,15 @@ def createReference(request):
 def returnReferenceInFormat(request):
 	pass
 
-
+@csrf_exempt
 def deleteReference(request, reference_id):
-	reference_id = request.POST.get('reference_id','')
 	instance = CCReferencePapers.objects.filter(id=reference_id)
-	instance.delete()
-	if len(existing_papers) > 0:
+	
+	if len(instance) == 0:
 		# Ref. Paper exists! Edit the evidence text showing to point to the new evidence text?
 		errorMessage = "Error! No reference you are deleting"
 		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")	
+	instance.delete()		
 	return HttpResponse(json.dumps({'success': True}), content_type="application/json")	
 
 def getReference(request, reference_id):

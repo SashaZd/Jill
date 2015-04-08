@@ -60,7 +60,7 @@ class CCQuestion(models.Model):
 	from_project_id = models.ForeignKey('CCProjects', related_name="from_project_id")
 
 	def __unicode__(self):
-	    return self.name
+	    return self.question_text
 
 	def getResponseData(self):
 
@@ -82,7 +82,7 @@ class CCReferencePapers(models.Model):
 	question_id = models.ForeignKey('CCQuestion', related_name="question_id")
 
 	def __unicode__(self):
-	    return self.name
+	    return self.paper_title
 
 	def getResponseData(self):
 
