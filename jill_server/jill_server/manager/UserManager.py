@@ -51,10 +51,17 @@ def getUser(request, user_id):
 	response_data = {}
 	if user_id:
 		users = CCUser.objects.filter(id=user_id)
+		
 		#Ideally there shouldn't be duplicate users.
+
 		if len(users)>0:
 			user = users[0]
 			response_data = user.getResponseData()
+
+		else:
+			existing_user = existing_users[0]
+			errorMessage = "Error! This user doesn't exist."
+			return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")			
 
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
