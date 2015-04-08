@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
 # ProjectsManager API Calls
 	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
-	url(r'^api/project/list/$', ProjectsManager.createProject, name='createProject'),
+	# url(r'^api/project/list/$', ProjectsManager.createProject, name='project'),
 	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest, name='projectReturn'),
 
 #ReferebcePaperManager API alls
@@ -25,6 +25,7 @@ urlpatterns = patterns('',
 
 # Other API Calls?
 	url(r'^home/$', 'jill_server.views.index', name='home'),
+	url(r'^home/project$', 'jill_server.views.index', name='currentProject'),
 	url(r'^$', 'jill_server.views.login', name='login'),
 	url(r'^projects/$', 'jill_server.views.projects', name='projects')
 

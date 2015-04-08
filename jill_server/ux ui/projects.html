@@ -54,7 +54,9 @@
         <input type="text" ng-model="new_project_name">
         </div>
         <div class='small-2 columns'>
-        <a  ng-click="addProject()" class='postfix button tiny'>Create</a>
+        
+        <a  ng-click="addProject()" class='postfix button tiny' >Create</a>
+        
         </div>
         </div>
   </form>
@@ -90,7 +92,7 @@ app.controller('ProjectController',  function($scope,$http) {
 
   // var responsePromise = $http({
   //     method: 'get',
-  //     url: "{% url 'getAllProjects' %}",
+  //     url: "",
   //     headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
   //     params: {created_by_user:$scope.user_id}
   //   });
@@ -102,7 +104,7 @@ app.controller('ProjectController',  function($scope,$http) {
   //   responsePromise.error(function(data, status, headers, config) {
   //     alert("AJAX failed!");
   // });
-});
+
 
   $scope.addToReferences=function(i){
     $scope.references.push($scope.answers[i]);
@@ -134,7 +136,7 @@ app.controller('ProjectController',  function($scope,$http) {
 
     var responsePromise = $http({
       method: 'post',
-      url: "{% url 'createProject' %}",
+      url: "{% url 'project' %}",
       headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
       data: $.param({project_title:$scope.new_project_name,created_by_user:$scope.user_id})
     });
@@ -145,6 +147,9 @@ app.controller('ProjectController',  function($scope,$http) {
     responsePromise.error(function(data, status, headers, config) {
       alert("AJAX failed!");
     });
+
+    window.alert(" Project Started: " + $scope.new_project_name );
+     window.location = "{% url 'currentProject' %}";
 
   }
 
