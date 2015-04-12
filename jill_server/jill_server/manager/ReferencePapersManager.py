@@ -78,6 +78,7 @@ def deleteReference(request):
 def getReference(request):
 	project_id = request.POST.get('project_id','')
 	existing_projects = CCProjects.objects.filter(id=project_id)
+	
 	if len(existing_projects) == 0:
 		#Project doesn't exist!
 		errorMessage = "Error! This project doesn't exist"
