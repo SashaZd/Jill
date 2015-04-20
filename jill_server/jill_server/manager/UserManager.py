@@ -17,6 +17,7 @@ def userRequest(request, user_id=None):
 		return getUser(request, user_id)
 
 
+@csrf_exempt
 def createUser(request):
 	first_name = request.POST.get('first_name','')
 	last_name = request.POST.get('last_name','')
@@ -46,7 +47,7 @@ def createUser(request):
 	
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-
+@csrf_exempt
 def getUser(request, user_id):
 	response_data = {}
 	if user_id:

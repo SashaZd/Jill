@@ -1,0 +1,111 @@
+{% load staticfiles %}
+
+<html>
+<head>
+<script src="{% static "js/script.js"%}" charset="utf-8"></script>
+<link rel="stylesheet" href="{% static "css/main.css"%}" />
+  <link rel="stylesheet" href="{% static "css/foundation.css"%}" />
+    <script src="{% static "js/vendor/modernizr.js"%}"></script>
+  <script src="{% static "js/vendor/jquery.js"%}"></script>
+  <script src="{% static "js/foundation.min.js"%}"></script>
+  <script src="{% static "bower_components/angular/angular.js"%}" charset="utf-8"></script>
+
+  </head>
+  {% verbatim %}
+  <body ng-app="jill">
+
+<nav class="top-bar" data-topbar role="navigation">
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="#">Jill</a></h1>
+    </li>
+     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="right">
+      <li class="has-dropdown">
+        <a href="#">Sign Up</a>
+        <ul class="dropdown">
+        <li><a href="#">New User</a></li>        
+          <li><a href="#">Settings</a></li>
+          
+          
+        </ul>
+      </li>
+    </ul>
+
+  </section>
+</nav>
+<br />    
+
+
+
+    <div class="row" ng-controller="Signup">
+    <div class="large-6 columns">
+      <div class="signup-panel">
+        <p class="welcome"> Welcome to this awesome app!</p>
+        <form>
+          <div class="row collapse">
+            <div class="small-2  columns">
+              <span class="prefix"><i class="fi-torso-female"></i></span>
+            </div>
+            <div class="small-10  columns">
+              <input type="text" placeholder="username" ng-model="username">
+            </div>
+          </div>
+          <div class="row collapse">
+            <div class="small-2 columns">
+              <span class="prefix"><i class="fi-mail"></i></span>
+            </div>
+            <div class="small-10  columns">
+              <input type="text" placeholder="email" ng-model="email">
+            </div>
+          </div>
+          <div class="row collapse">
+            <div class="small-2 columns ">
+              <span class="prefix"><i class="fi-lock"></i></span>
+            </div>
+            <div class="small-10 columns ">
+              <input type="text" placeholder="password" ng-model="pass">
+            </div>
+          </div>
+        </form>
+        <a href="#" class="button" ng-click="addUser()">Sign Up! </a>
+         <p>Already have an account? <a href="/">Login here &raquo</a></p>
+      </div>
+    </div>
+   </div>
+
+
+</body>
+</html>
+
+{% endverbatim %}
+<script type='text/javascript'>
+
+// Add post request for user ---------------
+
+var app=angular.module("jill",[]);
+app.controller('Signup',  function($scope,$http) {
+
+$scope.addUser=function(name, email, password){
+    var responsePromise = $http({
+      method: 'post',
+      url: "{% url 'userrequest' %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      data: $.param({first_name:$scope.username,email:$scope.email})
+    });
+
+    responsePromise.success(function(data, status, headers, config)  {
+      $scope.answers=data.evidences;
+    });
+    responsePromise.error(function(data, status, headers, config) {
+      alert("AJAX failed!");
+    });
+
+  }
+});
+</script>
