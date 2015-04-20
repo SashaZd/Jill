@@ -32,7 +32,7 @@
     <!-- Right Nav Section -->
     <ul class="right">
       <li class="has-dropdown">
-        <a href="#">Carl Saldanha</a>
+        <a href="#">Jill</a>
         <ul class="dropdown">
         <li><a href="#">My Library</a></li>        
           <li><a href="#">Settings</a></li>
@@ -114,12 +114,12 @@ context = {
 		
 		// the items in the list will be the ones returned from the json
 		Handlebars.registerHelper('list', function(context, options) {
-    var ret = "<ul>";
-    for(var i=0, j=context.length; i<j; i++) {
-    ret = ret + "<li>" + options.fn(context[i]) + "</li>";
-    }
-    return ret + "</ul>";
-  });
+      var ret = "<ul>";
+      for(var i=0, j=context.length; i<j; i++) {
+        ret = ret + "<li>" + options.fn(context[i]) + "</li>";
+      }
+      return ret + "</ul>";
+    });
 }
 
 	$('.askjillbutton').click(askJill);
@@ -152,24 +152,24 @@ app.controller('MainController',  function($scope,$http) {
       $scope.question_id=data.question_id;
     });
     responsePromise.error(function(data, status, headers, config) {
-      alert("AJAX failed!");
+      // alert("AJAX failed!");
     });
 
   }
 
   function updateReferences(){
-     $http({
-      method: 'post',
-      url: "{% url 'getreference' %}",
-      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
-      data:$.param({project_id:$scope.project_id,})
-    }).success(function(data, status, headers, config)  {
-      $scope.references=data;
-      console.log(data);
-    })
-    .error(function(data, status, headers, config) {
-      alert("AJAX failed!");
-    });
+      $http({
+        method: 'post',
+        url: "{% url 'getreference' %}",
+        headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+        data:$.param({project_id:$scope.project_id,})
+      }).success(function(data, status, headers, config)  {
+        $scope.references=data;
+        console.log(data);
+      })
+      .error(function(data, status, headers, config) {
+        // alert("AJAX failed!");
+      });
   }
 
   $scope.deleteReference=function(index){
@@ -188,7 +188,7 @@ app.controller('MainController',  function($scope,$http) {
     });
 
     responsePromise.error(function(data, status, headers, config) {
-      alert("AJAX failed!");
+      // alert("AJAX failed!");
     });
   }
 
@@ -212,7 +212,7 @@ app.controller('MainController',  function($scope,$http) {
     });
 
     responsePromise.error(function(data, status, headers, config) {
-      alert("AJAX failed!");
+      // alert("AJAX failed!");
     });
 
   }

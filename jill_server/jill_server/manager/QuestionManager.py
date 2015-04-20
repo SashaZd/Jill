@@ -62,11 +62,15 @@ def askWatson(request):
 	trimmed_answer_base_URL = "https://watson-wdc01.ihost.com"
 	response_data["tempData"] = len(evidencelist)
 
-# # Waiting for Bryan to respond with base_URL for papers
-		# evidence = CCReferencePapers()
-
 	temp = addQuestion(question_text, from_project_id)
 	response_data["question_id"]= temp
+
+	# for eachEvidence in evidencelist:
+	# 	try:
+	# 		document = {}
+	# 		document[eachEvidence["metadataMap"]["originalfile"]] = []
+	# 	except:
+	# 		pass
 
 	for eachEvidence in evidencelist:
 		try:

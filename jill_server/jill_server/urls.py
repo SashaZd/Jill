@@ -15,7 +15,6 @@ urlpatterns = patterns('',
 
 # ProjectsManager API Calls
 	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
-	# url(r'^api/project/list/$', ProjectsManager.createProject, name='project'),
 	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest, name='projectReturn'),
 
 #ReferebcePaperManager API alls

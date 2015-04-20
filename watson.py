@@ -12,6 +12,19 @@
 import json
 import requests
 import urllib
+# from bs4 import SoupStrainer, BeautifulSoup
+
+
+# from urllib import FancyURLopener
+# class MyOpener(FancyURLopener):
+#     version = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36'
+
+
+# openurl = MyOpener().open
+# url = "http://scholar.google.se/scholar?hl=en&q=what+is+osmosis"
+#  # openurl(url).read()
+# page = BeautifulSoup(openurl(url).read(), parse_only=SoupStrainer('div', id='gs_ab_md'))
+# print page
 
 def askWatson(question):
     data={"question": {"questionText" : question}}
@@ -38,8 +51,8 @@ def askWatson(question):
 
 print("===== Starting the test ======\n\n")
 
-# jsonResponse = askWatson("How do pinecones work?")
-
+jsonResponse = askWatson("How do pinecones work?")
+print jsonResponse
 # evidences = jsonResponse["question"]["evidencelist"]
 
 # #the answer

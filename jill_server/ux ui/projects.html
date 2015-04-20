@@ -145,10 +145,10 @@ app.controller('ProjectController',  function($scope,$http) {
       $scope.projects=data;
     });
     responsePromise.error(function(data, status, headers, config) {
-      alert("AJAX failed!");
+      // alert("AJAX failed!");
     });
 
-    window.alert(" Project Started: " + $scope.new_project_name );
+    // window.alert(" Project Started: " + $scope.new_project_name );
      window.location = "{% url 'currentProject' %}";
 
   }
