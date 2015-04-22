@@ -53,7 +53,7 @@ Project
 
 fields: project_title, created_by_user, document_body
 
-1. Create New Project 
+- Create New Project 
 ```
 	URL : api/project/
 	Type : POST
@@ -65,7 +65,7 @@ fields: project_title, created_by_user, document_body
 		"created_by_user": 1}
 ```
 
-2. Get Project
+- Get Project
 ```
 	URL : api/project/{project_id}/
 	Type : GET
@@ -73,7 +73,7 @@ fields: project_title, created_by_user, document_body
 		{"project_id": 2, "document_body": "This is old", "project_title": "Yet Another Project", "created_by_user": 1}
 ```
 
-3. Update Project
+- Update Project
 Note: Any field that shouldn't be changed should be sent in the params as an empty string
 ```
 	URL : api/project/1/
@@ -81,6 +81,16 @@ Note: Any field that shouldn't be changed should be sent in the params as an emp
 	Param : project_title, created_by_user, document_body 
 	Sample Response: 
 		{"project_id": 1, "document_body": "This is new", "project_title": "New Project Changed", "created_by_user": 1}
+```
+
+- Get History of Questions Asked in Project
+
+```
+	URL: api/project/<project_id>/history/
+	Type: GET
+	Sample Response: 
+		[{"question_text": "How do pinecones work?", "from_project_id": 1, "question_id": 1}, 
+		{"question_text": "What is osmosis?", "from_project_id": 1, "question_id": 2}]
 ```
 
 
@@ -163,7 +173,6 @@ fields : q_id, question text, keywords, context, date, uid
 - Find old question by qid 
 - Find all questions from uid
 - Find all questions from r_id 
-
 
 
 OTHER (Ignore)
