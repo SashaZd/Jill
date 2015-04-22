@@ -49,10 +49,16 @@ def addQuestion(question_text, from_project_id):
 def askWatson(request):
 	from_project_id = request.POST.get('from_project_id','')
 	question_text = request.POST.get('question_text','')
+	
+	# In case you're looking at an already added questions from history. 
+	previous_questions = CCQuestion.objects.filter(question_text=question_text)
+
+	if len(previous_questions) == 0:
+		question_id = addQuestion(question_text, from_project_id)
 
 	unformatted_response = askWatsonAPICall(question_text)
 
-	question_id = unformatted_response["question"]["id"]
+	# question_id = unformatted_response["question"]["id"]
 	evidencelist = unformatted_response["question"]["evidencelist"]
 
 	response_data = {}
@@ -62,8 +68,7 @@ def askWatson(request):
 	trimmed_answer_base_URL = "https://watson-wdc01.ihost.com"
 	response_data["tempData"] = len(evidencelist)
 
-	temp = addQuestion(question_text, from_project_id)
-	response_data["question_id"]= temp
+	response_data["question_id"]= question_id
 
 	# for eachEvidence in evidencelist:
 	# 	try:
