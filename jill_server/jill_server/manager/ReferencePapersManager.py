@@ -15,12 +15,21 @@ import requests
 
 
 @csrf_exempt
-def paperRequest(request, reference_id=None):
+def paperRequest(request, project_id=None):
+	# Create Project
 	if request.method == "POST":
-		if reference_id is None:
-			return createReference(request)
-	else:
-		return getReference(request, reference_id)
+		if project_id is None:
+			if request.POST.get('reference_id','') == '':
+				return createReference(request)
+			elif request.POST.get('reference_id','') != '' and request.POST.get('post_type','')=="DELETE":
+				return deleteReference(request)
+	
+	# Get All References from Project ID
+	elif request.method == "GET":
+		return getReference(request, project_id)
+
+	# elif request.method == "DELETE":
+	# 	return deleteReference(request)
 
 @csrf_exempt
 def createReference(request):
@@ -64,19 +73,21 @@ def returnReferenceInFormat(request):
 
 @csrf_exempt
 def deleteReference(request):
-	reference_id = request.POST.get('reference_id','')
+	reference_id =  request.POST.get('reference_id','')
+
 	instance = CCReferencePapers.objects.filter(id=reference_id)
 	
 	if len(instance) == 0:
 		# Ref. Paper exists! Edit the evidence text showing to point to the new evidence text?
 		errorMessage = "Error! No reference you are deleting"
 		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")	
-	instance.delete()		
+
+	instance.delete()	
+
 	return HttpResponse(json.dumps({'success': True}), content_type="application/json")	
 
 @csrf_exempt
-def getReference(request):
-	project_id = request.POST.get('project_id','')
+def getReference(request, project_id):
 	existing_projects = CCProjects.objects.filter(id=project_id)
 	
 	if len(existing_projects) == 0:
