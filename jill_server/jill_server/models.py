@@ -97,7 +97,7 @@ class CCReferencePapers(models.Model):
 
 		# Need later, maybe? Don't delete the next code segment
 		all_associated_projects = self.referenced_by_project.all()
-		response_data['referenced_by_project'] = {}
+		response_data['referenced_by_project'] = []
 
 		if len(all_associated_projects) > 0:
 			for eachProj in all_associated_projects:

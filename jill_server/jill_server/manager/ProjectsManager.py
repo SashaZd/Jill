@@ -18,12 +18,6 @@ def projectRequest(request, project_id=None):
 	else:
 		return getProject(request, project_id)
 
-# def getAllProjects(request):
-# 	created_by_user = int(request.GET.get('created_by_user','4'))
-# 	user = CCUser.objects.filter(id=created_by_user)
-# 	existing_projects = CCProjects.objects.filter(created_by_user = user[0])
-# 	response=existing_projects.getResponseData()
-# 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 def createProject(request):
 	project_title = request.POST.get('project_title','')
@@ -104,4 +98,6 @@ def getProject(request, project_id):
 			response_data = project.getResponseData()
 
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
 

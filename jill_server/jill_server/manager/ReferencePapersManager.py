@@ -96,5 +96,16 @@ def getReference(request, project_id):
 		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
 
 	existing_papers = CCReferencePapers.objects.filter(referenced_by_project=existing_projects[0]).all()
-	data = serializers.serialize('json', existing_papers)		
-	return HttpResponse(data, content_type="application/json")
+
+	response_data = []
+	if len(existing_papers) > 0:
+		for eachPaper in existing_papers: 
+			response_data.append(eachPaper.getResponseData())
+	else:
+		errorMessage = "No references papers added to project."
+		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")	
+
+	# data = serializers.serialize('json', existing_papers)		
+	# return HttpResponse(data, content_type="application/json")
+
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
