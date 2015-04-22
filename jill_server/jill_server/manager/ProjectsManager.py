@@ -53,7 +53,7 @@ def createProject(request):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def updateProject(request, project_id):
+def updateProject(request, project_id=None):
 	project_title = request.POST.get('project_title','')
 	created_by_user = request.POST.get('created_by_user','')
 	document_body = request.POST.get('document_body','')
@@ -87,7 +87,7 @@ def updateProject(request, project_id):
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
-def getProject(request, project_id):
+def getProject(request, project_id=None):
 	response_data = {}
 	if project_id:
 		projects = CCProjects.objects.filter(id=project_id)
@@ -98,6 +98,28 @@ def getProject(request, project_id):
 			response_data = project.getResponseData()
 
 	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def getProjectHistory(request, project_id=None):
+	response_data = []
+	# project_id = request.POST.get('project_id','')
+
+	if project_id != '':
+		questions = CCQuestion.objects.filter(from_project_id=project_id)
+
+		if len(questions) == 0:
+			errorMessage = "Error! No questions have been asked in this project yet."
+			return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")
+		
+		for eachQuestion in questions: 
+			response_data.append(eachQuestion.getResponseData())
+			
+	return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+
+
+
 
 
 
