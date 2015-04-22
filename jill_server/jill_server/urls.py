@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
 	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest, name='projectReturn'),
 	url(r'^api/project/(?P<project_id>\d*)/history/$', ProjectsManager.getProjectHistory, name='historyForProject'),
+	url(r'^api/project/delete/$', ProjectsManager.deleteProject, name='delete_reference'),
 
 #ReferencePaperManager API alls
 	url(r'^api/reference/$',ReferencePapersManager.paperRequest, name='reference'),

@@ -19,6 +19,20 @@ def projectRequest(request, project_id=None):
 		return getProject(request, project_id)
 
 
+@csrf_exempt
+def deleteProject(request):
+	project_id =  request.POST.get('project_id','')
+	instance = CCProjects.objects.filter(id=project_id)
+	
+	if len(instance) == 0:
+		# Ref. Paper exists! Edit the evidence text showing to point to the new evidence text?
+		errorMessage = "Error! No such project exists."
+		return HttpResponse(json.dumps({'success': False, "error":errorMessage}), content_type="application/json")	
+
+	instance.delete()	
+	return HttpResponse(json.dumps({'success': True}), content_type="application/json")	
+
+
 def createProject(request):
 	project_title = request.POST.get('project_title','')
 	created_by_user = request.POST.get('created_by_user','')
