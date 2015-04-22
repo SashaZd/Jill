@@ -59,7 +59,10 @@ fields: project_title, created_by_user, document_body
 	Type : POST
 	Param : project_title, created_by_user, document_body 
 	Sample Response: 
-		{"project_id": 2, "document_body": "This is old", "project_title": "Yet Another Project", "created_by_user": 1}
+		{"project_id": 2, 
+		"document_body": "This is old", 
+		"project_title": "Yet Another Project", 
+		"created_by_user": 1}
 ```
 
 2. Get Project
@@ -95,11 +98,50 @@ fields : r_id, title, main text, references, qid, uid, reference_style
 5. Update Research Paper with content from studies
 
 
+Reference Papers (Favorite Papers)
+======
+evidence_text, paper_title, paper_author, paper_link, referenced_by_project, question_id, paper_id
+
+
+- Create new reference paper
+```
+	URL : api/reference/
+	Parameters : evidence_text, paper_title, paper_author, paper_link, project_id, question_id
+	Type : POST
+	Sample Response: {success:true}
+	
+```
+
+- Get References for Project
+```
+	URL : api/reference/<project_id>/
+	Type : GET
+	Sample Response: 
+	[{"fields": {
+		"evidence_text": "hello world", 
+		"referenced_by_project": [1], 
+		"paper_link": "Another Link", 	
+		"paper_author": "Sasha Azad", 
+		"paper_title": "Another Paper", 
+		"question_id": 2}, 
+		"model": "jill_server.ccreferencepapers", 
+		"pk": 10}]
+```
+
+- Delete Reference from Project
+```
+	URL: api/reference/
+	Type: POST
+	Parameters: post_type="DELETE", reference_id
+	Sample Response: {success:true}
+
+```
+
 Questions
 ======
 fields : q_id, question text, keywords, context, date, uid 
 
-1. Create new question 
+- Create new question 
 
 ```
 	URL : api/question/
@@ -118,14 +160,19 @@ fields : q_id, question text, keywords, context, date, uid
 		]}
 ```
 
-2. Find old question by qid 
-3. Find all questions from uid
-4. Find all questions from r_id 
+- Find old question by qid 
+- Find all questions from uid
+- Find all questions from r_id 
 
 
-##Task List
 
-1. Set up Django Project
-2. Build login screen
-3. APIs for Watson
-4. Build Website 
+OTHER (Ignore)
+------ 
+Format of API Calls: 
+```
+	URL: 
+	Type: 
+	Parameters: 
+	Sample Response: 
+
+```
