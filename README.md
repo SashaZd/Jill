@@ -117,9 +117,12 @@ Note : Check the "Update Project" API call in Projects
 ```
 
 - Delete Research Paper 
-
+```
+Note : Check the "Delete Project" API call in Projects
+```
 
 - Update Research Paper with References 
+
 
 - Add Reference (IMPORTANT)
 ```
