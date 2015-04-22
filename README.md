@@ -83,7 +83,7 @@ Note: Any field that shouldn't be changed should be sent in the params as an emp
 		{"project_id": 1, "document_body": "This is new", "project_title": "New Project Changed", "created_by_user": 1}
 ```
 
-- Get History of Questions Asked in Project
+- Get Question History
 
 ```
 	URL: api/project/<project_id>/history/
@@ -93,6 +93,14 @@ Note: Any field that shouldn't be changed should be sent in the params as an emp
 		{"question_text": "What is osmosis?", "from_project_id": 1, "question_id": 2}]
 ```
 
+- Delete Project 
+```
+	URL: api/project/delete/
+	Type: POST
+	Parameters: project_id
+	Sample Response: {success:true}
+
+```
 
 Research Paper 
 ======
@@ -126,7 +134,7 @@ Note : Check the "Delete reference from project" API call in Reference Papers
 5. Update Research Paper with content from studies
 
 
-Reference Papers (Favorite Papers)
+Reference Papers 
 ======
 evidence_text, paper_title, paper_author, paper_link, referenced_by_project, question_id, paper_id
 
@@ -189,8 +197,15 @@ fields : q_id, question text, keywords, context, date, uid
 ```
 
 - Find old question by qid 
+```
+Note : Check the "Get Question History" API call in Projects
+```
+
 - Find all questions from uid
-- Find all questions from r_id 
+```
+Not needed???
+```
+
 
 
 OTHER (Ignore)
