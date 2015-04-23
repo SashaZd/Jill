@@ -14,6 +14,10 @@ body {
 .login-box {
   background: #fff;
   border: 1px solid #ddd; 
-  margin: 100px 0;
-  padding: 40px 20px 0 20px;
+  margin: 50px 0;
+  padding: 0px 20px 0 20px;
+}
+
+.login-box img{
+	padding: 5px 5px 5px 5px;
 }
