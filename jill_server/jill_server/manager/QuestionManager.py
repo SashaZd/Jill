@@ -55,6 +55,8 @@ def askWatson(request):
 
 	if len(previous_questions) == 0:
 		question_id = addQuestion(question_text, from_project_id)
+	else:
+		question_id = previous_questions[0].id
 
 	unformatted_response = askWatsonAPICall(question_text)
 
