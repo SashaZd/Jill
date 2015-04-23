@@ -12,8 +12,6 @@ urlpatterns = patterns('',
 # QuestionManager API Calls
 	url(r'^api/question/$', QuestionManager.askQuestion, name='question'),
 	
-	# url(r'^api/addquestion/$', QuestionManager.addQuestion, name='questionCreate'),	
-
 # ProjectsManager API Calls
 	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
 	url(r'^api/project/(?P<project_id>\d*)/$', ProjectsManager.projectRequest, name='projectReturn'),
@@ -23,6 +21,7 @@ urlpatterns = patterns('',
 #ReferencePaperManager API alls
 	url(r'^api/reference/$',ReferencePapersManager.paperRequest, name='reference'),
 	url(r'^api/reference/(?P<project_id>\d*)/$', ReferencePapersManager.paperRequest, name='getreference'),
+	url(r'^api/reference/$', ReferencePapersManager.deleteReference, name='delete_reference'),
 
 # Other API Calls?
 	url(r'^home/$',PageManager.getPaperPage, name='home'),
