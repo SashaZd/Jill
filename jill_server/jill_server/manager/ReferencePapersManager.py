@@ -98,6 +98,7 @@ def getReference(request, project_id):
 	existing_papers = CCReferencePapers.objects.filter(referenced_by_project=existing_projects[0]).all()
 
 	response_data = []
+	
 	if len(existing_papers) > 0:
 		for eachPaper in existing_papers: 
 			response_data.append(eachPaper.getResponseData())

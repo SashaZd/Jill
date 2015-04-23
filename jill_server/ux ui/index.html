@@ -49,7 +49,7 @@
 <div ng-controller='MainController'>
 <div class='row' >
   <button class='small askjillbutton' ng-click="searchfunction()">Ask Jill</button>   
-<button class='small'>History</button>
+<button class='small' ng-click="historyfunction()">History</button>
 </div>
 <div class='row'>
 <div class='large-8 medium-9 small-12 columns' style="box-shadow:-1px 0px 10px #8d8d8d ">
@@ -83,6 +83,14 @@
 	<a href="#" ng-click="addToReferences(information.index)">Add To List</a> | <a target="_blank" href="{{information.trimmed_document}}">Link to paper</a>
   </div>
 </div>
+
+<div id="history_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="false" role="list"/>
+  <h2>Search History:</h2>
+  <div ng-repeat="item in history" ng-if="item.question_text.length>0">
+    <div class='box panel' ng-click="historySearch($index)">
+       <a href="#"> {{item.question_text}}</a>
+   <div>
+  </div>
 		</div>
 </body>
 </html>
@@ -137,6 +145,7 @@ app.controller('MainController',  function($scope,$http) {
   $scope.numLimit=100;
   $scope.project_id={{project_id}};
   $scope.question_id=-1;
+  $scope.history=[];
   updateReferences();
 
   function returnAnAnswer(email,project_id,question_text){
@@ -149,7 +158,7 @@ app.controller('MainController',  function($scope,$http) {
 
     responsePromise.success(function(data, status, headers, config)  {
       $scope.answers=data.evidences;
-      console.log($scope.answers);
+      $('#ask_jill_modal').foundation('reveal', 'open');
       $scope.question_id=data.question_id;
     });
     responsePromise.error(function(data, status, headers, config) {
@@ -157,6 +166,24 @@ app.controller('MainController',  function($scope,$http) {
     });
 
   }
+
+  function getHistory(){
+    var responsePromise = $http({
+      method: 'get',
+      url: "{% url 'historyForProject' project_id %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      data: $.param({project_id:$scope.project_id}),
+    });
+
+    responsePromise.success(function(data, status, headers, config)  {
+      $scope.history=data;
+    });
+    responsePromise.error(function(data, status, headers, config) {
+      // alert("AJAX failed!");
+    });
+  }
+  
+
 
   function updateReferences(){
       $http({
@@ -226,11 +253,23 @@ app.controller('MainController',  function($scope,$http) {
 	//Ask Jill
  	$scope.searchfunction=function(){
 		$scope.search=tinyMCE.activeEditor.selection.getContent();
-		$('#ask_jill_modal').foundation('reveal', 'open');
 		$scope.searchmodal=true;
     $scope.answers=[];
     returnAnAnswer('cjds@live.com',$scope.project_id,$scope.search);
 	}
+
+  $scope.historyfunction=function(){
+    $('#history_modal').foundation('reveal', 'open');
+    getHistory();
+  }
+
+  $scope.historySearch=function(index){
+    $scope.search=$scope.history[index].question_text;
+    $('#history_modal').foundation('reveal', 'close');
+    $scope.searchmodal=true;
+    $scope.answers=[];
+    returnAnAnswer('cjds@live.com',$scope.project_id,$scope.search);
+  }
 
 	$scope.clickOnPaper=function(i){
 		$scope.searchmodal=false; // switching to the details
