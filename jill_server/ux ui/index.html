@@ -60,7 +60,7 @@
 </div>
 <div class='large-4 medium-2 small-12 columns'>
 	<div class='box panel'  ng-repeat="paper in references">
-		<span style='text-decoration:underline;font-weight:600'>{{paper.paper_title| limitTo:numLimit}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
+		<a href="{{paper.paper_link}}"><span style='text-decoration:underline;font-weight:600'>{{paper.paper_title| limitTo:numLimit}} <i ng-repeat="author in paper.author">{{author}}, </i></span></a>
 		<p style="font-size:0.8em">	{{paper.evidence_text| limitTo:numLimit }}</p>
     <a href="#" ng-click="deleteReference($index)">Delete</a>
 	</div>
@@ -207,7 +207,7 @@ app.controller('MainController',  function($scope,$http) {
           evidence_text:$scope.answers[i].evidence_text,
           paper_title:$scope.answers[i].paper_title,
           paper_author:'',
-          paper_link:$scope.answers[i].paper_link,
+          paper_link:$scope.answers[i].trimmed_document,
           project_id:$scope.project_id,
           question_id:$scope.question_id})
     });

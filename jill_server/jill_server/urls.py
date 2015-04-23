@@ -23,7 +23,7 @@ urlpatterns = patterns('',
 #ReferencePaperManager API alls
 	url(r'^api/reference/$',ReferencePapersManager.paperRequest, name='reference'),
 	url(r'^api/reference/(?P<project_id>\d*)/$', ReferencePapersManager.paperRequest, name='getreference'),
-	 url(r'^api/reference/$', ReferencePapersManager.deleteReference, name='delete_reference'),
+	url(r'^api/reference/$', ReferencePapersManager.deleteReference, name='delete_reference'),
 	
 
 # Other API Calls?
