@@ -10,6 +10,17 @@
   <script src="{% static "bower_components/angular/angular.js"%}" charset="utf-8"></script>
   </head>
   <body ng-app="jill">
+  <style type="text/css">
+  .project-box{
+    padding:20px;background:#ccc;margin:20px;min-height:100px;font-size:30px;font-family:'Palatino',serif;\
+    transition: all 1s;
+    -webkit-transition:all 1s;
+  }
+  .project-box:hover{
+    background: #99f;
+    cursor:pointer;
+  }
+  </style>
 
 {% verbatim %}
 
@@ -63,13 +74,13 @@
     </div>
     <div class="large-12 columns">
     <label> Select a project to start: </label>
-       <div class="row" ng-repeat="project in projects">
-         <div class="large-3 columns" style="paddding:20px;background:#888">
-             {{project_title}}
+      <div ng-repeat="project in projects ">
+         <div class="large-3 columns project-box" style="" ng-click="goToProject($index)">
+             {{project.project_title}}
          </div>
-         </div>
+
        </div>
-        
+        <div class='column'/>
         </div>
       </div>
   </div>
@@ -90,20 +101,23 @@ app.controller('ProjectController',  function($scope,$http) {
   $scope.user_id="1";
   $scope.projects=[];
 
-  var responsePromise = $http({
-      method: 'get',
-      url: "",
-      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
-      params: {created_by_user:$scope.user_id, }
-    });
+  function userInformation(){
+      var responsePromise = $http({
+        method: 'get',
+        url: "{% url 'userdata' user_id %}",
+        headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+      });
 
-    responsePromise.success(function(data, status, headers, config)  {
-      $scope.projects=data;
-      console.log(data);
-    });
-    responsePromise.error(function(data, status, headers, config) {
-      alert("AJAX failed!");
+      responsePromise.success(function(data, status, headers, config)  {
+        $scope.projects=data.projects_worked_on;
+        console.log(data.projects_worked_on);
+      });
+      responsePromise.error(function(data, status, headers, config) {
+        alert("AJAX failed!");
   });
+  }
+
+  userInformation();
 
 
   $scope.addToReferences=function(i){
@@ -132,6 +146,9 @@ app.controller('ProjectController',  function($scope,$http) {
     $scope.searchmodal=true;
   }
 
+  $scope.goToProject=function(index){
+    window.location = "{% url 'home' %}"+$scope.projects[index].project_id
+  }
   $scope.addProject=function(){
 
     var responsePromise = $http({
@@ -142,14 +159,14 @@ app.controller('ProjectController',  function($scope,$http) {
     });
 
     responsePromise.success(function(data, status, headers, config)  {
-      $scope.projects=data;
+      window.location = "{% url 'home' %}"+data.project_id
     });
     responsePromise.error(function(data, status, headers, config) {
       // alert("AJAX failed!");
     });
 
     // window.alert(" Project Started: " + $scope.new_project_name );
-     window.location = "{% url 'currentProject' %}";
+     
 
   }
 

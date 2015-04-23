@@ -107,6 +107,7 @@ def getProject(request, project_id=None):
 		projects = CCProjects.objects.filter(id=project_id)
 		#Ideally there shouldn't be duplicate users.
 
+
 		if len(projects)>0:
 			project = projects[0]
 			response_data = project.getResponseData()

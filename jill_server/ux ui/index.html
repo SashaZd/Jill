@@ -60,8 +60,8 @@
 </div>
 <div class='large-4 medium-2 small-12 columns'>
 	<div class='box panel'  ng-repeat="paper in references">
-		<span style='text-decoration:underline;font-weight:600'>{{paper.fields.paper_title}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
-		<p style="font-size:0.8em">	{{paper.fields.evidence_text| limitTo:numLimit }}</p>
+		<span style='text-decoration:underline;font-weight:600'>{{paper.paper_title| limitTo:numLimit}} <i ng-repeat="author in paper.author">{{author}}, </i></span>
+		<p style="font-size:0.8em">	{{paper.evidence_text| limitTo:numLimit }}</p>
     <a href="#" ng-click="deleteReference($index)">Delete</a>
 	</div>
 </div>
@@ -135,7 +135,7 @@ app.controller('MainController',  function($scope,$http) {
 
   $scope.references=[];
   $scope.numLimit=100;
-  $scope.project_id=1;
+  $scope.project_id={{project_id}};
   $scope.question_id=-1;
   updateReferences();
 
@@ -149,6 +149,7 @@ app.controller('MainController',  function($scope,$http) {
 
     responsePromise.success(function(data, status, headers, config)  {
       $scope.answers=data.evidences;
+      console.log($scope.answers);
       $scope.question_id=data.question_id;
     });
     responsePromise.error(function(data, status, headers, config) {
@@ -159,12 +160,15 @@ app.controller('MainController',  function($scope,$http) {
 
   function updateReferences(){
       $http({
-        method: 'post',
-        url: "{% url 'getreference' %}",
+        method: 'get',
+        url: "{% url 'getreference' project_id %}",
         headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
         data:$.param({project_id:$scope.project_id,})
       }).success(function(data, status, headers, config)  {
-        $scope.references=data;
+        if(data.hasOwnProperty("success"))
+          $scope.references=[];
+        else
+          $scope.references=data;
         console.log(data);
       })
       .error(function(data, status, headers, config) {
@@ -178,7 +182,8 @@ app.controller('MainController',  function($scope,$http) {
       url: "{% url 'delete_reference' %}",
       headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
       data: $.param({
-          reference_id:$scope.references[index].pk,
+          reference_id:$scope.references[index].paper_id,
+          post_type:'DELETE',
           project_id:$scope.project_id
     })
     });
@@ -224,7 +229,7 @@ app.controller('MainController',  function($scope,$http) {
 		$('#ask_jill_modal').foundation('reveal', 'open');
 		$scope.searchmodal=true;
     $scope.answers=[];
-    returnAnAnswer('cjds@live.com','1',$scope.search);
+    returnAnAnswer('cjds@live.com',$scope.project_id,$scope.search);
 	}
 
 	$scope.clickOnPaper=function(i){
