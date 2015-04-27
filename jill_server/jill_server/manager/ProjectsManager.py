@@ -68,6 +68,7 @@ def createProject(request):
 
 
 def updateProject(request, project_id=None):
+	
 	project_title = request.POST.get('project_title','')
 	created_by_user = request.POST.get('created_by_user','')
 	document_body = request.POST.get('document_body','')

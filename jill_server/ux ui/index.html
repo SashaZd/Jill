@@ -12,7 +12,40 @@
   <script src="{% static "js/foundation/foundation.reveal.js"%}"></script>
   <script src="{% static "bower_components/angular/angular.js"%}" charset="utf-8"></script>
   <script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
-<script>tinymce.init({selector:'textarea',statusbar:false,menubar : false});</script>
+<script>
+		var project_title="";
+		var user="";
+    $.ajax({
+      method: 'get',
+      url: "{% url 'projectReturn' project_id %}"
+    }).done(function(data) {
+  		project_title=data.project_title;
+  		user=data.created_by_user;
+		});
+
+
+  tinymce.init({
+    selector:'textarea',
+    plugins: "save",
+    menubar:"false",
+    toolbar: "undo redo | save | bold italic underline | alignleft aligncenter alignright",
+    save_enablewhendirty: true,
+    save_onsavecallback: function() {
+      console.log("Save");
+      $.ajax({
+      	method:"POST",
+				url: "{% url 'projectReturn' project_id %}",
+				data:{
+					project_title:project_title	,
+					created_by_user:user,
+					document_body:tinyMCE.activeEditor.getContent()
+				}
+			}).done(function() {
+  			alert("SD");
+			});
+    }
+  });
+</script>
 
 </head>
 
@@ -48,13 +81,18 @@
 
 <div ng-controller='MainController'>
 <div class='row' >
+<h2>{{project.project_title}}</h2>
+</div>
+<div class='row' >
   <button class='small askjillbutton' ng-click="searchfunction()">Ask Jill</button>   
 <button class='small' ng-click="historyfunction()">History</button>
 </div>
 <div class='row'>
 <div class='large-8 medium-9 small-12 columns' style="box-shadow:-1px 0px 10px #8d8d8d ">
 	<div class='row' style="">
-	<textarea rows=30 cols=300></textarea>
+	<textarea rows=30 cols=300>
+   {{project.document_body}} 
+  </textarea>
 	</div>
 
 </div>
@@ -146,6 +184,7 @@ app.controller('MainController',  function($scope,$http) {
   $scope.project_id={{project_id}};
   $scope.question_id=-1;
   $scope.history=[];
+  $scope.project=new Object();
   updateReferences();
 
   function returnAnAnswer(email,project_id,question_text){
@@ -183,6 +222,22 @@ app.controller('MainController',  function($scope,$http) {
     });
   }
   
+  getProject();
+  function getProject(){
+    var responsePromise = $http({
+      method: 'get',
+      url: "{% url 'projectReturn' project_id %}",
+      headers: {'Content-Type':  "application/x-www-form-urlencoded; charset=utf-8"},    
+    });
+
+    responsePromise.success(function(data, status, headers, config)  {
+      $scope.project=data;
+      tinymce.activeEditor.execCommand('mceInsertContent', false,data.document_body);
+    });
+    responsePromise.error(function(data, status, headers, config) {
+      // alert("AJAX failed!");
+    });
+  }
 
 
   function updateReferences(){

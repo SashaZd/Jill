@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 
 # QuestionManager API Calls
 	url(r'^api/question/$', QuestionManager.askQuestion, name='question'),
-	url(r'^api/question2/$', QuestionManager.askQuestion2, name='question'),
+	url(r'^api/question2/$', QuestionManager.askQuestion, name='question'),
 	
 # ProjectsManager API Calls
 	url(r'^api/project/$', ProjectsManager.projectRequest, name='project'),	
