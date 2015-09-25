@@ -1,4 +1,4 @@
-cc8803
+API Endpoints
 ======
 
 Running the API locally
@@ -10,7 +10,6 @@ Running the API locally
 ```
 3. Use whatever the base_URL the runserver gives you and then add the "/api/..." to the end of it to make the calls. 
 
-##API Endpoints
 
 User 
 ======
